@@ -1,6 +1,7 @@
 import { Input, InputProps } from '@chakra-ui/react';
 import { FieldValues, useController, UseControllerProps } from 'react-hook-form';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface ControlledFileInputProps<T extends FieldValues> extends UseControllerProps<T> {}
 
 function ControlledFileInput<T extends FieldValues>({
