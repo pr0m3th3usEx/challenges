@@ -47,6 +47,8 @@ function Prompt({
               isLoading: false,
               error: undefined,
             });
+
+            onSuggestionFetched('blabla');
           }, 2000);
 
           // const response = await aiService.call(prompt, textSelection.text);
@@ -56,7 +58,7 @@ function Prompt({
           //   isLoading: false,
           //   error: undefined,
           // });
-          // onSuggestionFetched(response.data);
+          // onSuggestionFetched(response.data.suggestion);
         } catch (_error) {
           // textViewRef.current.disabled = false;
           // setContext({
@@ -68,7 +70,7 @@ function Prompt({
 
       fetchSuggestion();
     },
-    [textSelection, textViewRef, context, onSuggestionFetched],
+    [textSelection, textViewRef, onSuggestionFetched],
   );
 
   return (

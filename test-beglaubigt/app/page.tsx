@@ -72,10 +72,17 @@ export default function Home() {
 
   const onSuggestionFetched = useCallback(
     (suggestion: string) => {
+      if (!textViewRef.current) return;
+
       console.log(textSelection.text);
       console.log(suggestion);
+
+      const before = textViewRef.current.value.substring(0, textSelection.selectionStart);
+      const after = textViewRef.current.value.substring(textSelection.selectionEnd);
+
+      textViewRef.current.value = `${before}${suggestion}${after}`;
     },
-    [textSelection],
+    [textSelection, textViewRef],
   );
 
   return (
