@@ -9,7 +9,7 @@ class AIService {
 
   constructor() {
     this.apiService = axios.create({
-      baseURL: process.env.API_URL,
+      baseURL: process.env.NEXT_PUBLIC_API_URL,
       timeout: 20000,
     });
   }

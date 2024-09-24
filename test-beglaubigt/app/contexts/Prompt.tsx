@@ -1,6 +1,6 @@
 import { createContext, RefObject, useCallback, useState } from 'react';
 import PromptForm from '../components/forms/PromptForm';
-import aiService from '../service/aiService';
+import aiService from '../services/aiService';
 
 const defaultValue = {
   isLoading: false,

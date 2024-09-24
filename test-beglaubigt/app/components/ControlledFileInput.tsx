@@ -32,7 +32,6 @@ function ControlledFileInput<T extends FieldValues>({
       {...props}
       onChange={(e) => {
         if (e.target.files && e.target.files.length > 0) {
-          console.log(e.target.files[0]);
           onChange(e.target.files[0]);
         }
       }}
