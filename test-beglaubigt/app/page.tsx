@@ -1,9 +1,27 @@
 'use client';
 
-import { Button, FormControl, FormLabel, Input, Stack, Text, VStack } from '@chakra-ui/react';
+import { Button, FormControl, FormErrorMessage, FormLabel, Input, Stack, Text, VStack } from '@chakra-ui/react';
+import { useForm } from 'react-hook-form';
+import ControlledFileInput from './components/ControlledFileInput';
+
+type UploadFormContext = {
+  file: File;
+};
 
 export default function Home() {
   // TODO Add form validation
+  const {
+    handleSubmit,
+    control,
+    formState: { errors, isDirty, isValid },
+  } = useForm<UploadFormContext>({
+    mode: 'onChange',
+  });
+
+  const onUploadFormSubmit = handleSubmit((data) => {
+    console.log(data);
+  });
+
   // Create UploadDocumentForm component
 
   return (
@@ -14,12 +32,23 @@ export default function Home() {
         </Text>
       </Stack>
       <VStack as="main" alignItems="center" w="full" flexGrow={1} px="48px" py="24px">
-        <VStack as="form" w="fit-content">
-          <FormControl>
+        <VStack as="form" w="fit-content" onSubmit={onUploadFormSubmit}>
+          <FormControl isRequired isInvalid={!!errors.file}>
             <FormLabel>Select a PDF file: </FormLabel>
-            <Input type="file" accept="image/*,.pdf" />
+            <ControlledFileInput
+              control={control}
+              name="file"
+              accept=".pdf"
+              isRequired
+              rules={{
+                validate: (v) => (!!v && v.type === 'application/pdf' ? true : 'File not supported'),
+              }}
+            />
+            <FormErrorMessage>{errors.file?.message}</FormErrorMessage>
           </FormControl>
-          <Button>Submit</Button>
+          <Button type="submit" colorScheme="yellow" isDisabled={!isDirty || !isValid} isLoading={false}>
+            Submit
+          </Button>
         </VStack>
       </VStack>
       <Stack w="full" alignItems="center" px="12px" py="12px" bg="#d4a373">
