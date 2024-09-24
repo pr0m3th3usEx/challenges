@@ -16,24 +16,17 @@ import { useForm } from 'react-hook-form';
 import ControlledFileInput from './components/ControlledFileInput';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import Prompt from './contexts/Prompt';
-
-const loremIpsum = `
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nulla mi, pulvinar fringilla bibendum quis, elementum vitae ligula. Suspendisse et dapibus ante, sed bibendum massa. Fusce tincidunt nec enim ut viverra. Nam facilisis pulvinar porta. Pellentesque dignissim luctus justo, eu tristique nibh porta ornare. Mauris faucibus ligula ac posuere molestie. Pellentesque gravida, arcu ut condimentum pretium, nunc arcu commodo ante, vitae scelerisque orci sem efficitur metus. Sed nec neque eu ligula ullamcorper ornare. Donec vel euismod leo, vitae malesuada arcu. Mauris a sollicitudin odio. Fusce nulla lorem, commodo ac molestie quis, luctus vitae odio. Maecenas semper diam in mi fringilla, at congue leo molestie.
-
-Nulla et sem nec velit sodales volutpat. Nam vitae lectus eget quam elementum cursus varius ornare lectus. Donec viverra lobortis nulla at placerat. Pellentesque quis posuere quam. Nam gravida at sapien at auctor. Proin sed augue quis eros venenatis blandit. Aenean blandit lobortis augue et placerat. Nam massa enim, lobortis ac ex non, porttitor vulputate magna. Nulla in laoreet sapien. Quisque sodales porta tellus vitae commodo. Fusce vel mollis velit. Cras vel ligula purus. Suspendisse hendrerit pellentesque lectus, sit amet molestie massa fringilla vitae.
-
-Quisque dui nisi, posuere tincidunt interdum ut, dapibus ut orci. Aenean hendrerit metus at ante ornare, eget pharetra nisl porttitor. Suspendisse non ligula convallis, sollicitudin lacus eu, pharetra leo. Nunc mollis, urna a varius tincidunt, mi sem finibus purus, vitae lobortis orci lorem nec urna. Mauris rutrum semper ligula id facilisis. Praesent vel fringilla lectus. Morbi lobortis erat ipsum, sed scelerisque urna mattis laoreet. Duis nunc leo, elementum eu condimentum ac, pulvinar sit amet felis. Mauris vulputate ante ac sapien finibus condimentum sit amet vitae purus. Maecenas ac nibh id turpis egestas blandit. Nulla sagittis volutpat massa ac posuere. Aliquam in massa nec nibh pellentesque porta. Praesent augue tortor, imperdiet vel elit eu, gravida tincidunt nisl. Etiam efficitur libero dapibus elit efficitur, non rutrum tortor vehicula. Duis dictum consectetur nisl, sit amet semper risus bibendum ac. Donec scelerisque non eros sit amet malesuada.
-
-Nulla fermentum sed elit nec posuere. Mauris sed augue imperdiet erat rutrum tempor. Curabitur ultrices ac purus nec bibendum. Etiam fringilla aliquam nisi a efficitur. In hac habitasse platea dictumst. In a fermentum odio. Proin aliquam mi purus. Etiam vitae aliquam metus. Nunc dictum mi laoreet mi fringilla dignissim.
-
-Aliquam erat volutpat. Integer eget nisi tempus, volutpat nibh quis, tempor sem. Nulla at ultricies nibh. Integer eros ante, tincidunt vel quam eu, viverra venenatis quam. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Integer sit amet felis ut felis tempus dapibus nec ut purus. Cras pretium convallis orci. Integer vitae enim nec ex rutrum semper. Praesent scelerisque pretium lacus, vitae condimentum turpis lobortis sodales. Aliquam efficitur sit amet dolor quis pellentesque. Ut eleifend nec leo id ultrices.
-`;
+import * as pdfjsLib from 'pdfjs-dist';
+import 'pdfjs-dist/build/pdf.worker.min.mjs';
 
 type UploadFormContext = {
   file: File;
 };
 
 export default function Home() {
+  const [isLoadingPdf, setIsLoadingPdf] = useState(false);
+  const [pdfText, setPdfText] = useState('');
+
   const {
     handleSubmit,
     control,
@@ -43,10 +36,35 @@ export default function Home() {
   });
 
   const onUploadFormSubmit = handleSubmit((data) => {
-    console.log(data);
-  });
+    pdfjsLib.GlobalWorkerOptions.workerSrc = window.location.origin + '/pdf.worker.min.js';
 
-  // TODO Create UploadDocumentForm component
+    const extractTextFromPDF = async (pdf: pdfjsLib.PDFDocumentProxy) => {
+      let text = '';
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const content = await page.getTextContent();
+        const strings = content.items.map((item) => ('str' in item ? item.str : ''));
+        text += strings.join(' ') + '\n';
+      }
+      return text;
+    };
+
+    const reader = new FileReader();
+
+    setIsLoadingPdf(true);
+
+    reader.onload = async (e) => {
+      if (e.target) {
+        const typedArray = new Uint8Array(e.target.result as ArrayBuffer);
+        const pdf = await pdfjsLib.getDocument(typedArray).promise;
+        const text = await extractTextFromPDF(pdf);
+
+        setPdfText(text);
+        setIsLoadingPdf(false);
+      }
+    };
+    reader.readAsArrayBuffer(data.file);
+  });
 
   // TODO Create TextView component
   const [textSelection, setTextSelection] = useState<{
@@ -78,6 +96,12 @@ export default function Home() {
       const after = textViewRef.current.value.substring(textSelection.selectionEnd);
 
       textViewRef.current.value = `${before}${suggestion}${after}`;
+
+      setTextSelection({
+        selectionStart: 0,
+        selectionEnd: 0,
+        text: '',
+      });
     },
     [textSelection, textViewRef],
   );
@@ -105,7 +129,7 @@ export default function Home() {
             />
             <FormErrorMessage>{errors.file?.message}</FormErrorMessage>
           </FormControl>
-          <Button type="submit" colorScheme="yellow" isDisabled={!isDirty || !isValid} isLoading={false}>
+          <Button type="submit" colorScheme="yellow" isDisabled={!isDirty || !isValid} isLoading={isLoadingPdf}>
             Submit
           </Button>
         </VStack>
@@ -117,7 +141,8 @@ export default function Home() {
               ref={textViewRef}
               resize="none"
               overflowY="auto"
-              defaultValue={loremIpsum}
+              value={pdfText}
+              onChange={(e) => setPdfText(e.target.value)}
               onSelect={onTextSelected}
             ></Textarea>
           </AspectRatio>
