@@ -1,5 +1,6 @@
 import { createContext, RefObject, useCallback, useState } from 'react';
 import PromptForm from '../components/forms/PromptForm';
+import aiService from '../service/aiService';
 
 const defaultValue = {
   isLoading: false,
@@ -8,7 +9,8 @@ const defaultValue = {
 
 export const PromptContext = createContext<{
   isLoading: boolean;
-  error: unknown | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  error?: any;
 }>(defaultValue);
 
 function Prompt({
@@ -38,33 +40,34 @@ function Prompt({
           isLoading: true,
         }));
 
-        // Call API /ai/
+        // Call API
         try {
           // Mock
-          setTimeout(() => {
-            textViewRef.current!.disabled = false;
-            setContext({
-              isLoading: false,
-              error: undefined,
-            });
+          // setTimeout(() => {
+          //   textViewRef.current!.disabled = false;
+          //   setContext({
+          //     isLoading: false,
+          //     error: undefined,
+          //   });
 
-            onSuggestionFetched('blabla');
-          }, 2000);
+          //   onSuggestionFetched('blabla');
+          // }, 2000);
 
-          // const response = await aiService.call(prompt, textSelection.text);
-          // // Reset state
-          // textViewRef.current.disabled = false;
-          // setContext({
-          //   isLoading: false,
-          //   error: undefined,
-          // });
-          // onSuggestionFetched(response.data.suggestion);
-        } catch (_error) {
-          // textViewRef.current.disabled = false;
-          // setContext({
-          //   isLoading: false,
-          //   error,
-          // });
+          const data = await aiService.getSuggestion(prompt, textSelection.text);
+          // Reset state
+          textViewRef.current.disabled = false;
+          setContext({
+            isLoading: false,
+            error: undefined,
+          });
+          onSuggestionFetched(data.suggestion);
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+          textViewRef.current.disabled = false;
+          setContext({
+            isLoading: false,
+            error: error,
+          });
         }
       };
 

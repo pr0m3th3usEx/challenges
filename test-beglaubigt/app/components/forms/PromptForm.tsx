@@ -27,7 +27,7 @@ function PromptForm({ textSelection, onPromptReady }: PromptFormProps) {
     onPromptReady(prompt);
   });
 
-  const { error: _serviceError, isLoading } = useContext(PromptContext);
+  const { error: serviceError, isLoading } = useContext(PromptContext);
 
   return (
     <Card bg="#d4a373" p="12px 24px" as="form" onSubmit={onSubmit}>
@@ -56,6 +56,9 @@ function PromptForm({ textSelection, onPromptReady }: PromptFormProps) {
           ></Textarea>
           <FormErrorMessage>{errors.prompt?.message}</FormErrorMessage>
         </FormControl>
+
+        {serviceError && <Text color="yellow">Something wrong happened: {serviceError.toString()}</Text>}
+
         <Button type="submit" isDisabled={!isDirty || !isValid} colorScheme="orange" isLoading={isLoading}>
           Apply
         </Button>
