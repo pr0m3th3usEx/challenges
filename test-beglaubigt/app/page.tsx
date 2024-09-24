@@ -115,43 +115,51 @@ export default function Home() {
       </Stack>
       <VStack as="main" alignItems="center" w="full" flexGrow={1} px="48px" py="24px">
         {/* Upload form */}
-        <VStack as="form" w="fit-content" onSubmit={onUploadFormSubmit}>
-          <FormControl isRequired isInvalid={!!errors.file}>
-            <FormLabel>Select a PDF file: </FormLabel>
-            <ControlledFileInput
-              control={control}
-              name="file"
-              accept=".pdf"
-              isRequired
-              rules={{
-                validate: (v) => (!!v && v.type === 'application/pdf' ? true : 'File not supported'),
-              }}
-            />
-            <FormErrorMessage>{errors.file?.message}</FormErrorMessage>
-          </FormControl>
-          <Button type="submit" colorScheme="yellow" isDisabled={!isDirty || !isValid} isLoading={isLoadingPdf}>
-            Submit
-          </Button>
-        </VStack>
+        {pdfText.length === 0 && (
+          <VStack as="form" w="fit-content" onSubmit={onUploadFormSubmit}>
+            <FormControl isRequired isInvalid={!!errors.file}>
+              <FormLabel>Select a PDF file: </FormLabel>
+              <ControlledFileInput
+                control={control}
+                name="file"
+                accept=".pdf"
+                isRequired
+                rules={{
+                  validate: (v) => (!!v && v.type === 'application/pdf' ? true : 'File not supported'),
+                }}
+              />
+              <FormErrorMessage>{errors.file?.message}</FormErrorMessage>
+            </FormControl>
+            <Button type="submit" colorScheme="yellow" isDisabled={!isDirty || !isValid} isLoading={isLoadingPdf}>
+              Submit
+            </Button>
+          </VStack>
+        )}
 
         {/* Text area */}
-        <HStack justifyContent="center" w="full" spacing="24px">
-          <AspectRatio w="60%" minW="60%" ratio={1.4142 / 1} flexGrow={2}>
-            <Textarea
-              ref={textViewRef}
-              resize="none"
-              overflowY="auto"
-              value={pdfText}
-              onChange={(e) => setPdfText(e.target.value)}
-              onSelect={onTextSelected}
-            ></Textarea>
-          </AspectRatio>
+        {pdfText.length > 0 && (
+          <HStack justifyContent="center" w="full" spacing="24px">
+            <AspectRatio w="60%" minW="60%" ratio={1.4142 / 1} flexGrow={2}>
+              <Textarea
+                ref={textViewRef}
+                resize="none"
+                overflowY="auto"
+                value={pdfText}
+                onChange={(e) => setPdfText(e.target.value)}
+                onSelect={onTextSelected}
+              ></Textarea>
+            </AspectRatio>
 
-          {/* Prompt input */}
-          {isTextSelected && (
-            <Prompt textViewRef={textViewRef} textSelection={textSelection} onSuggestionFetched={onSuggestionFetched} />
-          )}
-        </HStack>
+            {/* Prompt input */}
+            {isTextSelected && (
+              <Prompt
+                textViewRef={textViewRef}
+                textSelection={textSelection}
+                onSuggestionFetched={onSuggestionFetched}
+              />
+            )}
+          </HStack>
+        )}
       </VStack>
       <Stack w="full" alignItems="center" px="12px" py="12px" bg="#d4a373">
         <Text color="white">Copyright © Thomas 2024</Text>
