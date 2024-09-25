@@ -95,7 +95,7 @@ export default function Home() {
       const before = textViewRef.current.value.substring(0, textSelection.selectionStart);
       const after = textViewRef.current.value.substring(textSelection.selectionEnd);
 
-      textViewRef.current.value = `${before}${suggestion}${after}`;
+      setPdfText(`${before}${suggestion}${after}`);
 
       setTextSelection({
         selectionStart: 0,
