@@ -17,7 +17,7 @@ import ControlledFileInput from './components/ControlledFileInput';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import Prompt from './contexts/Prompt';
 import * as pdfjsLib from 'pdfjs-dist';
-import 'pdfjs-dist/build/pdf.worker.min.mjs';
+import 'pdfjs-dist/build/pdf.worker.min.js';
 
 type UploadFormContext = {
   file: File;
