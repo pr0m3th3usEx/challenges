@@ -169,7 +169,7 @@ export default function Home() {
         )}
       </VStack>
       <Stack w="full" alignItems="center" px="12px" py="12px" bg="#d4a373">
-        <Text color="white">Copyright © Thomas 2024</Text>
+        <Text color="white">Copyright © Thomas MICHEL 2024</Text>
       </Stack>
     </VStack>
   );
