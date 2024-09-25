@@ -9,6 +9,8 @@ const openai = new OpenAI({
 });
 
 const validateGPTResponse = (message: string): { result: string } => {
+  console.log('[DEBUG]', message);
+
   const split_content = message.split('json')[1];
   const clean_content = split_content.split('```')[0];
 
