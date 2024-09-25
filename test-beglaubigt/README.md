@@ -2,15 +2,27 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+First, setup the environment of the project:
 
 ```bash
+#[]
+$ cp env.example .env
+$ sed -i 's/-----FILL-ME------/<YOUR_API_KEY>/g' .env
+```
+
+Then, run the development server:
+
+```bash
+npm install
 npm run dev
 # or
+yarn
 yarn dev
 # or
+pnpm install
 pnpm dev
 # or
+bun install
 bun dev
 ```
 
