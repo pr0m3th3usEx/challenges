@@ -114,7 +114,7 @@ export default function Home() {
           PDF Editor MVP
         </Text>
       </Stack>
-      <VStack as="main" alignItems="center" w="full" flexGrow={1} px="48px" py="24px">
+      <VStack as="main" alignItems="center" w="full" flexGrow={1} px={{ base: '16px', md: '48px' }} py="24px">
         {/* Upload form */}
         {pdfText.length === 0 && (
           <VStack as="form" w="fit-content" onSubmit={onUploadFormSubmit}>
