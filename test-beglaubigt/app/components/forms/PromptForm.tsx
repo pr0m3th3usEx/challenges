@@ -30,7 +30,7 @@ function PromptForm({ textSelection, onPromptReady }: PromptFormProps) {
   const { error: serviceError, isLoading } = useContext(PromptContext);
 
   return (
-    <Card bg="#d4a373" p="12px 24px" as="form" onSubmit={onSubmit}>
+    <Card bg="#d4a373" p="12px 24px" h="fit-content" as="form" onSubmit={onSubmit}>
       <VStack w="full" alignItems="flex-start">
         <Text>What do you want to change ?</Text>
         <Text fontSize="sm">

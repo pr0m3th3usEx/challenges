@@ -44,7 +44,7 @@ export default function Home() {
         const page = await pdf.getPage(i);
         const content = await page.getTextContent();
         const strings = content.items.map((item) => ('str' in item ? item.str : ''));
-        text += strings.join(' ') + '\n';
+        text += strings.join('\n') + '\n';
       }
       return text;
     };
@@ -97,6 +97,8 @@ export default function Home() {
 
       setPdfText(`${before}${suggestion}${after}`);
 
+      textViewRef.current.focus();
+      
       setTextSelection({
         selectionStart: 0,
         selectionEnd: 0,
@@ -138,8 +140,8 @@ export default function Home() {
 
         {/* Text area */}
         {pdfText.length > 0 && (
-          <HStack justifyContent="center" w="full" spacing="24px">
-            <AspectRatio w="60%" minW="60%" ratio={1.4142 / 1} flexGrow={2}>
+          <Stack direction={{ base: 'column-reverse', lg: 'row' }} justifyContent="center" w="full" h="full" spacing="24px">
+            <AspectRatio w={{ base: "full", lg: "60%"}} minW={{ base: "full", lg: "60%"}} h="full">
               <Textarea
                 ref={textViewRef}
                 resize="none"
@@ -158,7 +160,7 @@ export default function Home() {
                 onSuggestionFetched={onSuggestionFetched}
               />
             )}
-          </HStack>
+          </Stack>
         )}
       </VStack>
       <Stack w="full" alignItems="center" px="12px" py="12px" bg="#d4a373">
