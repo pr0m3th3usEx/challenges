@@ -6,7 +6,6 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
-  HStack,
   Stack,
   Text,
   Textarea,
@@ -98,7 +97,7 @@ export default function Home() {
       setPdfText(`${before}${suggestion}${after}`);
 
       textViewRef.current.focus();
-      
+
       setTextSelection({
         selectionStart: 0,
         selectionEnd: 0,
@@ -140,8 +139,14 @@ export default function Home() {
 
         {/* Text area */}
         {pdfText.length > 0 && (
-          <Stack direction={{ base: 'column-reverse', lg: 'row' }} justifyContent="center" w="full" h="full" spacing="24px">
-            <AspectRatio w={{ base: "full", lg: "60%"}} minW={{ base: "full", lg: "60%"}} h="full">
+          <Stack
+            direction={{ base: 'column-reverse', lg: 'row' }}
+            justifyContent="center"
+            w="full"
+            h="full"
+            spacing="24px"
+          >
+            <AspectRatio w={{ base: 'full', lg: '60%' }} minW={{ base: 'full', lg: '60%' }} h="full">
               <Textarea
                 ref={textViewRef}
                 resize="none"
