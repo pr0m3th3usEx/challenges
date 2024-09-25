@@ -6,6 +6,7 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
+  Link,
   Stack,
   Text,
   Textarea,
@@ -17,6 +18,7 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 import Prompt from './contexts/Prompt';
 import * as pdfjsLib from 'pdfjs-dist';
 import 'pdfjs-dist/build/pdf.worker.min.js';
+import NextLink from 'next/link';
 
 type UploadFormContext = {
   file: File;
@@ -169,7 +171,16 @@ export default function Home() {
         )}
       </VStack>
       <Stack w="full" alignItems="center" px="12px" py="12px" bg="#d4a373">
-        <Text color="white">Made with 🤍🤍 by Thomas MICHEL - 2024</Text>
+        <Text color="white">
+          Made with 🤍🤍 by Thomas MICHEL - 2024 -{' '}
+          <Link
+            as={NextLink}
+            href="https://github.com/pr0m3th3usEx/challenges/tree/main/test-beglaubigt"
+            target="_blank"
+          >
+            Github Link
+          </Link>
+        </Text>
       </Stack>
     </VStack>
   );
