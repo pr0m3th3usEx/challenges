@@ -5,10 +5,16 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
+    "lint:fix": "turbo lint:fix",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.1.0",
+    "@eslint/js": "^9.12.0",
+    "eslint": "^9.11.1",
+    "eslint-config-custom": "*",
     "prettier": "^3.2.5",
+    "prettier-config-custom": "*",
     "turbo": "^2.1.3",
     "typescript": "^5.4.5"
   },

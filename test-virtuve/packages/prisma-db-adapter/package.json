@@ -10,6 +10,9 @@
     "db:migrate-prod": "prisma migrate deploy",
     "db:reset": "prisma migrate reset",
     "db:generate-client": "prisma generate",
+    "lint": "eslint \"src/**/*.ts*\"",
+    "lint:fix": "eslint --fix \"src/**/*.ts*\"",
+    "format": "prettier ./src --write",
     "build": "tsc",
     "fclean": "rm -rf build"
   },
@@ -18,7 +21,11 @@
     "@virtuve/biz-core": "workspace:*"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.1.0",
     "@types/node": "20.12.7",
+    "eslint-config-custom": "*",
+    "prettier": "^3.3.3",
+    "prettier-config-custom": "*",
     "prisma": "^5.20.0",
     "typescript": "^5.4.3",
     "vitest": "^2.1.2"

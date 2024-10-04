@@ -12,7 +12,7 @@ const config = {
     allowed_origins: env.get('CORS_ALLOWED_ORIGINS').default('*').asArray(','),
     allowed_headers: env.get('CORS_ALLOWED_HEADERS').default('*').asArray(','),
     allowed_methods: env.get('CORS_ALLOWED_METHODS').default('*').asArray(','),
-  }
+  },
 };
 
 export default config;

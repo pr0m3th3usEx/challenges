@@ -1,5 +1,5 @@
 export enum MetricType {
-    SPEED = 'SPEED',
-    STRENGTH = 'STRENGTH',
-    STAMINA = 'STAMINA'
+  SPEED = 'SPEED',
+  STRENGTH = 'STRENGTH',
+  STAMINA = 'STAMINA',
 }
