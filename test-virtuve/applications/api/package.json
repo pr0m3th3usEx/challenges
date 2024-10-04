@@ -10,6 +10,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.11.17",
+    "esrun": "^3.2.26",
     "tsx": "^4.7.1"
   }
 }

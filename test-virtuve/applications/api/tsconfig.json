@@ -14,10 +14,11 @@
     "jsxImportSource": "hono/jsx",
   },
   "include": [
-    "src/**/*.ts",
-    "tests/**/*.ts"
+    "src/**/*.ts"
   ],
   "exclude": [
-    "build"
+    "build",
+    "test/**/*.ts",
+    "src/**/*.spec.ts"
   ]
 }

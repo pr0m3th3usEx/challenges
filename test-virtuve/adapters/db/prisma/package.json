@@ -11,10 +11,12 @@
     "db:generate-client": "prisma generate"
   },
   "dependencies": {
-    "prisma": "^5.20.0"
+    "@prisma/client": "^5.20.0"
   },
   "devDependencies": {
-    "typescript": "^5.4.3",
-    "@types/node": "20.12.7"
+    "@types/node": "20.12.7",
+    "esrun": "^3.2.26",
+    "prisma": "^5.20.0",
+    "typescript": "^5.4.3"
   }
 }
