@@ -12,3 +12,29 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Athlete {
+  id   String @id @default(uuid())
+  name String
+  age  Int
+  team String
+
+  metrics Metrics[]
+}
+
+model Metrics {
+  id        String  @id @default(uuid())
+  athleteId String
+  athlete   Athlete @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+
+  metricType MetricType
+  value      Float
+  unit       String
+  timestamp  DateTime
+}
+
+enum MetricType {
+  SPEED
+  STRENGTH
+  STAMINA
+}
