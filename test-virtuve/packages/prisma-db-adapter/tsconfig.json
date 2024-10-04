@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+      "target": "ESNext",
+      "module": "Node16",
+      "moduleResolution": "Node16",
+      "strict": true,
+      "skipLibCheck": true,
+      "esModuleInterop": true,
+      "composite": true,
+      "declaration": true,
+      "baseUrl": ".",
+      "outDir": "./build",
+      "types": [
+        "node",
+        "vitest/globals"
+      ],
+    },
+    "include": [
+        "src"
+    ],
+    "exclude": ["node_modules"]
+  }

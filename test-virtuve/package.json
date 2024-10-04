@@ -1,21 +1,19 @@
 {
-  "name": "test-virtuve",
-  "version": "1.0.0",
+  "name": "virtuve",
   "private": true,
-  "workspaces": [
-    "adapters/db/*",
-    "applications/api",
-    "biz-core"
-  ],
   "scripts": {
-    "lint": "eslint"
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.1.0",
-    "@eslint/js": "^9.11.1",
-    "@typescript-eslint/eslint-plugin": "^8.8.0",
-    "@typescript-eslint/parser": "^8.8.0",
-    "eslint": "^9.11.1",
-    "globals": "^15.10.0"
+    "prettier": "^3.2.5",
+    "turbo": "^2.1.3",
+    "typescript": "^5.4.5"
+  },
+  "packageManager": "pnpm@8.15.6",
+  "engines": {
+    "node": ">=18"
   }
 }

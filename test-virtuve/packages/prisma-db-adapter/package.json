@@ -1,0 +1,26 @@
+{
+  "name": "@virtuve/prisma-db-adapter",
+  "version": "1.0.0",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "db:migrate": "prisma migrate dev",
+    "db:migrate-prod": "prisma migrate deploy",
+    "db:reset": "prisma migrate reset",
+    "db:generate-client": "prisma generate",
+    "build": "tsc",
+    "fclean": "rm -rf build"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.20.0",
+    "@virtuve/biz-core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "20.12.7",
+    "prisma": "^5.20.0",
+    "typescript": "^5.4.3",
+    "vitest": "^2.1.2"
+  }
+}

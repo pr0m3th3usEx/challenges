@@ -1,0 +1,20 @@
+{
+  "name": "@virtuve/biz-core",
+  "version": "1.0.0",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "exports": {
+    ".": "./build/index.d.ts"
+  },
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "fclean": "rm -rf build"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.4",
+    "typescript": "^5.6.2",
+    "vitest": "^2.1.2"
+  }
+}
