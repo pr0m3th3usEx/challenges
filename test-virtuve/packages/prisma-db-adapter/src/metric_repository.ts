@@ -58,6 +58,9 @@ export class PrismaMetricRepository implements MetricRepository {
     };
 
     const data = await this.prisma.metric.findMany({
+      orderBy: {
+        timestamp: 'asc',
+      },
       ...prismaOptions,
     });
 
@@ -84,6 +87,9 @@ export class PrismaMetricRepository implements MetricRepository {
           gte: options?.start,
           lt: options?.end,
         },
+      },
+      orderBy: {
+        timestamp: 'asc',
       },
     };
 

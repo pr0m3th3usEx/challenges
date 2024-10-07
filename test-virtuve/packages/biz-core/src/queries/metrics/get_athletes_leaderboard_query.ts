@@ -13,6 +13,8 @@ interface GetAthletesLeaderboardResponse {
   athletes: (Athlete & { avgValue: number })[];
 }
 
+// TODO Create custom exception for query
+
 export class GetAthletesLeaderboard {
   constructor(private readonly options: GetAthletesLeaderboardOptions) {}
 

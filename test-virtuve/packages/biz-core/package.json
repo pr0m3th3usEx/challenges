@@ -12,6 +12,7 @@
     "build": "tsc",
     "lint": "eslint \"src/**/*.ts\"",
     "lint:fix": "eslint \"src/**/*.ts\" --fix",
+    "test": "vitest run",
     "format": "prettier ./src --write",
     "fclean": "rm -rf build"
   },

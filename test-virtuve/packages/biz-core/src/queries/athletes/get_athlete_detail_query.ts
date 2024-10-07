@@ -7,6 +7,8 @@ export interface GetAthleteDetailQueryResponse extends Athlete {
   metrics: Metric[];
 }
 
+// TODO Create custom exception for query
+
 export class GetAthleteDetailQuery {
   constructor(private readonly athleteId: string) {}
 

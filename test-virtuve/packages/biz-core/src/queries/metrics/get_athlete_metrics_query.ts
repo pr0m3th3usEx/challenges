@@ -9,6 +9,8 @@ interface GetAthleteMetricsQueryOptions {
   end?: Date;
 }
 
+// TODO Create custom exception for query
+
 export class GetAthleteMetricsQuery {
   constructor(
     private readonly athleteId: string,
