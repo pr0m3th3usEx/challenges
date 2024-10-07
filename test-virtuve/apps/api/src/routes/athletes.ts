@@ -1,12 +1,16 @@
 import { Hono } from 'hono';
+import { CreateAthleteDto } from 'src/dto/athlete.dto';
+import { classValidator } from 'src/middleware/classValidator';
 
 const athleteRoutes = new Hono().basePath('/athletes');
 
 /**
  * POST /athletes : Create a new athlete in the system.
  */
-athleteRoutes.post('/', async (res) => {
-  return res.status(201);
+athleteRoutes.post('/', classValidator('json', CreateAthleteDto), async (context) => {
+  const { body } = context.req.valid('json');
+
+  return context.text('Hello world', 201);
 });
 
 /**
