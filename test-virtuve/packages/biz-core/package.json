@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.7.4",
+    "@types/uuid": "^10.0.0",
     "eslint": "^9.12.0",
     "eslint-config-custom": "*",
     "prettier": "^3.3.3",
@@ -25,5 +26,6 @@
     "vitest": "^2.1.2"
   },
   "dependencies": {
+    "uuid": "^10.0.0"
   }
 }
