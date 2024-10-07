@@ -12,11 +12,12 @@
       "outDir": "./build",
       "types": [
         "node",
-        "vitest/globals"
+        "vitest/globals",
+        "./index.d.ts"
       ],
     },
     "include": [
-        "src"
+        "src",
     ],
     "exclude": ["node_modules"]
   }
