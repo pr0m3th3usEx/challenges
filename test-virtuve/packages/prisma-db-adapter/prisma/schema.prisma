@@ -19,10 +19,10 @@ model Athlete {
   age  Int
   team String
 
-  metrics Metrics[]
+  metrics Metric[]
 }
 
-model Metrics {
+model Metric {
   id        String  @id @default(uuid())
   athleteId String
   athlete   Athlete @relation(fields: [athleteId], references: [id], onDelete: Cascade)

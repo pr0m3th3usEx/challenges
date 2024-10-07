@@ -1,16 +1,103 @@
-import { Metric, MetricGetAllOptions, MetricRepository } from '@virtuve/biz-core';
+import { Prisma, PrismaClient } from '@prisma/client';
+import { Metric, MetricGetAllOptions, MetricRepository, MetricType } from '@virtuve/biz-core';
 
 export class PrismaMetricRepository implements MetricRepository {
-  save(_metric: Metric): Promise<Metric> {
-    throw new Error('Method not implemented.');
+  constructor(private readonly prisma: PrismaClient) {}
+
+  async save(newMetric: Metric): Promise<Metric> {
+    const data = await this.prisma.metric.create({
+      data: {
+        id: newMetric.id,
+        athlete: {
+          connect: {
+            id: newMetric.athleteId,
+          },
+        },
+        metricType: newMetric.metricType,
+        timestamp: newMetric.timestamp,
+        unit: newMetric.unit,
+        value: newMetric.value,
+      },
+    });
+
+    const metric: Metric = {
+      id: data.id,
+      athleteId: data.athleteId,
+      metricType: data.metricType as MetricType,
+      timestamp: data.timestamp,
+      unit: data.unit,
+      value: data.value,
+    };
+
+    return metric;
   }
-  get(_id: string): Promise<Metric | null> {
-    throw new Error('Method not implemented.');
+
+  async get(id: string): Promise<Metric | null> {
+    const data = await this.prisma.metric.findUnique({
+      where: { id },
+    });
+
+    if (!data) return null;
+
+    const metric: Metric = {
+      id: data.id,
+      athleteId: data.athleteId,
+      metricType: data.metricType as MetricType,
+      timestamp: data.timestamp,
+      unit: data.unit,
+      value: data.value,
+    };
+
+    return metric;
   }
-  getAll(_options?: MetricGetAllOptions): Promise<Metric[]> {
-    throw new Error('Method not implemented.');
+
+  async getAll(options?: MetricGetAllOptions): Promise<Metric[]> {
+    const prismaOptions: Prisma.MetricFindManyArgs = {
+      skip: options ? options.page * options.limit : 0,
+      take: options?.limit ?? 100,
+    };
+
+    const data = await this.prisma.metric.findMany({
+      ...prismaOptions,
+    });
+
+    const metrics = data.map<Metric>((d) => ({
+      id: d.id,
+      athleteId: d.athleteId,
+      metricType: d.metricType as MetricType,
+      timestamp: d.timestamp,
+      unit: d.unit,
+      value: d.value,
+    }));
+
+    return metrics;
   }
-  getAthleteMetrics(_options?: MetricGetAllOptions): Promise<Metric[]> {
-    throw new Error('Method not implemented.');
+
+  async getAthleteMetrics(athleteId: string, options?: MetricGetAllOptions): Promise<Metric[]> {
+    const prismaOptions: Prisma.MetricFindManyArgs = {
+      skip: options ? options.page * options.limit : 0,
+      take: options?.limit ?? 100,
+      where: {
+        athleteId,
+        metricType: options?.metricType,
+        timestamp: {
+          gte: options?.start,
+          lte: options?.end,
+        },
+      },
+    };
+
+    const data = await this.prisma.metric.findMany(prismaOptions);
+
+    const metrics = data.map<Metric>((d) => ({
+      id: d.id,
+      athleteId: d.athleteId,
+      metricType: d.metricType as MetricType,
+      timestamp: d.timestamp,
+      unit: d.unit,
+      value: d.value,
+    }));
+
+    return metrics;
   }
 }
