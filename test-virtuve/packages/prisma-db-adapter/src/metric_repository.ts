@@ -54,7 +54,7 @@ export class PrismaMetricRepository implements MetricRepository {
   async getAll(options?: MetricGetAllOptions): Promise<Metric[]> {
     const prismaOptions: Prisma.MetricFindManyArgs = {
       skip: options ? options.page * options.limit : 0,
-      take: options?.limit ?? 100,
+      take: options?.limit ?? 1000,
     };
 
     const data = await this.prisma.metric.findMany({
@@ -76,13 +76,13 @@ export class PrismaMetricRepository implements MetricRepository {
   async getAthleteMetrics(athleteId: string, options?: MetricGetAllOptions): Promise<Metric[]> {
     const prismaOptions: Prisma.MetricFindManyArgs = {
       skip: options ? options.page * options.limit : 0,
-      take: options?.limit ?? 100,
+      take: options?.limit ?? 1000,
       where: {
         athleteId,
         metricType: options?.metricType,
         timestamp: {
           gte: options?.start,
-          lte: options?.end,
+          lt: options?.end,
         },
       },
     };
