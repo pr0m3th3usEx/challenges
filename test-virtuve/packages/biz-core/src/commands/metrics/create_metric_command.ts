@@ -12,7 +12,6 @@ export class CreateMetricCommand {
     private readonly metricType: MetricType,
     private readonly value: number,
     private readonly unit: string,
-    private readonly timestamp: Date,
   ) {}
 
   async execute(athlete_repository: AthleteRepository, metric_repository: MetricRepository): Promise<string /** id */> {
@@ -26,7 +25,7 @@ export class CreateMetricCommand {
       id: v4(),
       athleteId: this.athleteId,
       metricType: this.metricType,
-      timestamp: this.timestamp,
+      timestamp: new Date(),
       unit: this.unit,
       value: this.value,
     };

@@ -6,10 +6,10 @@ import { StatusCodes } from 'http-status-codes';
 import { ValidationTargets } from 'hono';
 
 export const classValidator = <T extends ClassConstructor<any>>(target: keyof ValidationTargets, dataType: T) =>
-  validator('json', async (value, c) => {
+  validator(target, async (value, c) => {
     try {
-      const body = await parseAndValidateDto(dataType, value);
-      return { body };
+      const data = await parseAndValidateDto(dataType, value);
+      return { data };
     } catch (err) {
       return c.json(
         {
