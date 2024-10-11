@@ -1,5 +1,5 @@
 import { IsEnum, IsNumber, Length } from 'class-validator';
-import { MetricType } from '../../../../packages/biz-core/build';
+import { MetricType } from '@virtuve/biz-core/value_objects';
 
 export class CreateMetricDto {
   @IsNumber()

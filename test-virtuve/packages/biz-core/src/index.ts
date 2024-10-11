@@ -13,4 +13,4 @@ export * from './entities/metric';
 /**
  * Value objects
  */
-export * from './value_objects/metric_type';
+export * from './value_objects';

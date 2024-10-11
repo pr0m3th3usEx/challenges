@@ -1,5 +1,6 @@
+import { GetAthletesQuery } from '@virtuve/biz-core/queries/get_athletes_query';
 import { Hono } from 'hono';
-import { CreateAthleteDto, GetAthleteQueryDto } from 'src/dto/athlete.dto';
+import { CreateAthleteDto, GetAthleteQueryDto, UpdateAthleteDto } from 'src/dto/athlete.dto';
 import { classValidator } from 'src/middleware/classValidator';
 
 const athleteRoutes = new Hono().basePath('/athletes');
@@ -17,6 +18,8 @@ athleteRoutes.post('/', classValidator('json', CreateAthleteDto), async (context
  * GET /athletes : Retrieve a list of all athletes.
  */
 athleteRoutes.get('/', async (res) => {
+  const query = new GetAthletesQuery();
+
   return res.status(200);
 });
 
@@ -34,15 +37,23 @@ athleteRoutes.get(':id', classValidator('param', GetAthleteQueryDto), async (con
 /**
  * PUT /athletes/{id} : Update an athlete’s information.
  */
-athleteRoutes.put(':id', classValidator('param', GetAthleteQueryDto), async (res) => {
-  return res.status(200);
-});
+athleteRoutes.put(
+  ':id',
+  classValidator('param', GetAthleteQueryDto),
+  classValidator('json', UpdateAthleteDto),
+  async (context) => {
+    const { data: param } = context.req.valid('param');
+    const { data } = context.req.valid('json');
+
+    return context.text('Hey', 200);
+  },
+);
 
 /**
  * PUT /athletes/{id} : Update an athlete’s information.
  */
-athleteRoutes.delete(':id', classValidator('param', GetAthleteQueryDto), async (res) => {
-  return res.status(200);
+athleteRoutes.delete(':id', classValidator('param', GetAthleteQueryDto), async (context) => {
+  return context.text('Hey', 200);
 });
 
 export default athleteRoutes;

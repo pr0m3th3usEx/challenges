@@ -4,7 +4,7 @@ import { Metric } from 'src/entities/metric';
 import { mean, standardDeviation } from 'src/utils/math';
 import { MetricType } from 'src/value_objects/metric_type';
 
-interface GetAthleteMetricsAggregateQueryOptions {
+export interface GetAthleteMetricsAggregateQueryOptions {
   metricType?: MetricType;
   operation: AthleteMetricsAggregateOperation;
 }
@@ -16,22 +16,22 @@ enum AthleteMetricsAggregateOperation {
   TOTAL_COUNT,
 }
 
-interface MinMaxResult {
+export interface MinMaxResult {
   min: number;
   max: number;
 }
 
-interface AverageResult {
+export interface AverageResult {
   value: number;
 }
 
-type TotalCountResult = AverageResult;
+export type TotalCountResult = AverageResult;
 
-type StandardDeviationResult = AverageResult;
+export type StandardDeviationResult = AverageResult;
 
-type AggregatationResult = MinMaxResult | AverageResult | TotalCountResult | StandardDeviationResult;
+export type AggregatationResult = MinMaxResult | AverageResult | TotalCountResult | StandardDeviationResult;
 
-interface GetAthleteMetricsAggregateQueryResponse {
+export interface GetAthleteMetricsAggregateQueryResponse {
   results: {
     metricType: MetricType;
     result: AggregatationResult;

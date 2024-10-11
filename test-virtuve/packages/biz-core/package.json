@@ -1,10 +1,52 @@
 {
   "name": "@virtuve/biz-core",
   "version": "1.0.0",
-  "main": "build/index.js",
-  "types": "build/index.d.ts",
+  "type": "module",
   "exports": {
-    ".": "./build/index.d.ts"
+    ".": { 
+      "default": "./build/src/index.js", 
+      "types": "./build/src/index.d.ts"
+    }, 
+    "./value_objects": {
+      "default": "./build/src/value_objects/index.js",
+      "types": "./build/src/value_objects/index.d.ts"
+    },
+    "./queries/get_athletes_query": {
+      "default": "./build/src/queries/athletes/get_athletes_query.js",
+      "types": "./build/src/queries/athletes/get_athletes_query.d.ts"
+    },
+    "./queries/athletes/get_athlete_query": {
+      "default": "./build/src/queries/athletes/get_athlete_query.js",
+      "types": "./build/src/queries/atheletes/get_athlete_query.d.ts"
+    },
+    "./queries/metrics/get_athlete_metrics_aggregate_query": {
+      "default": "./build/src/queries/metrics/get_athlete_metrics_aggregate_query.js",
+      "types": "./build/src/queries/metrics/get_athlete_metrics_aggregate_query.d.ts"
+    },
+    "./queries/metrics/get_athlete_metrics_query": {
+      "default": "./build/src/queries/metrics/get_athlete_metrics_query.js",
+      "types": "./build/src/queries/metrics/get_athlete_metrics_query.d.ts"
+    },
+    "./queries/metrics/get_athletes_leaderboard_query": {
+      "default": "./build/src/queries/metrics/get_athletes_leaderboard_query.js",
+      "types": "./build/src/queries/metrics/get_athletes_leaderboard_query.d.ts"
+    },
+    "./commands/athletes/create_athlete_command": {
+      "default": "./build/src/commands/athletes/create_athlete_command.js",
+      "types": "./build/src/commands/athletes/create_athlete_command.d.ts"
+    },
+    "./commands/athletes/update_athlete_command": {
+      "default": "./build/src/commands/athletes/update_athlete_command.js",
+      "types": "./build/src/commands/athletes/update_athlete_command.d.ts"
+    },
+    "./commands/athletes/delete_athlete_command": {
+      "default": "./build/src/commands/athletes/delete_athlete_command.js",
+      "types": "./build/src/commands/athletes/delete_athlete_command.d.ts"
+    },
+    "./commands/metrics/create_metric_command": {
+      "default": "./build/src/commands/metrics/create_metric_command.js",
+      "types": "./build/src/commands/metrics/create_metric_command.d.ts"
+    }
   },
   "license": "MIT",
   "private": true,
