@@ -1,8 +1,8 @@
 import { AthleteRepository } from 'src/contracts/repositories/athlete_repository';
 import { MetricRepository } from 'src/contracts/repositories/metric_repository';
 import { Metric } from 'src/entities/metric';
-import { mean, standardDeviation } from 'src/utils/math';
 import { MetricType } from 'src/value_objects/metric_type';
+import { mean, standardDeviation } from '../../utils/math';
 
 export interface GetAthleteMetricsAggregateQueryOptions {
   metricType?: MetricType;
@@ -12,7 +12,7 @@ export interface GetAthleteMetricsAggregateQueryOptions {
 export enum AthleteMetricsAggregateOperation {
   AVERAGE = 'average',
   MINMAX = 'minmax',
-  SD = 'standard_derivation',
+  SD = 'standard_deviation',
   TOTAL_COUNT = 'total',
 }
 
