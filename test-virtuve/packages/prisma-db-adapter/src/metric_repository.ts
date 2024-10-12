@@ -53,7 +53,7 @@ export class PrismaMetricRepository implements MetricRepository {
 
   async getAll(options?: MetricGetAllOptions): Promise<Metric[]> {
     const prismaOptions: Prisma.MetricFindManyArgs = {
-      skip: options ? options.page * options.limit : 0,
+      skip: options ? (options.page - 1) * options.limit : 0,
       take: options?.limit ?? 1000,
     };
 
@@ -78,7 +78,7 @@ export class PrismaMetricRepository implements MetricRepository {
 
   async getAthleteMetrics(athleteId: string, options?: MetricGetAllOptions): Promise<Metric[]> {
     const prismaOptions: Prisma.MetricFindManyArgs = {
-      skip: options ? options.page * options.limit : 0,
+      skip: options ? (options.page - 1) * options.limit : 0,
       take: options?.limit ?? 1000,
       where: {
         athleteId,

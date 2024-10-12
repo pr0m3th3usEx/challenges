@@ -3,7 +3,7 @@ import { MetricRepository } from 'src/contracts/repositories/metric_repository';
 import { Metric } from 'src/entities/metric';
 import { MetricType } from 'src/value_objects/metric_type';
 
-interface GetAthleteMetricsQueryOptions {
+export interface GetAthleteMetricsQueryOptions {
   metricType?: MetricType;
   start?: Date;
   end?: Date;

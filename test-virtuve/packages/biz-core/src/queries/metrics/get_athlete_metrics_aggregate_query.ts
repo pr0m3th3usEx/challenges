@@ -9,11 +9,11 @@ export interface GetAthleteMetricsAggregateQueryOptions {
   operation: AthleteMetricsAggregateOperation;
 }
 
-enum AthleteMetricsAggregateOperation {
-  AVERAGE,
-  MINMAX,
-  SD,
-  TOTAL_COUNT,
+export enum AthleteMetricsAggregateOperation {
+  AVERAGE = 'average',
+  MINMAX = 'minmax',
+  SD = 'standard_derivation',
+  TOTAL_COUNT = 'total',
 }
 
 export interface MinMaxResult {
@@ -114,7 +114,7 @@ export class GetAthleteMetricsAggregateQuery {
     // - Compute for each metric type
     const metricsByMetricType = metrics.reduce(
       (acc: Record<MetricType, Metric[]>, metric) => {
-        if (metric.metricType in acc) {
+        if (!(metric.metricType in acc)) {
           acc[metric.metricType] = [];
         }
 

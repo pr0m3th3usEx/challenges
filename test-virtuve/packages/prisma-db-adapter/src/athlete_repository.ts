@@ -48,7 +48,7 @@ export class PrismaAthleteRepository implements AthleteRepository {
 
   async getAll(options?: AthleteGetAllOptions): Promise<Athlete[]> {
     const prismaOptions: Prisma.AthleteFindManyArgs = {
-      skip: options ? options.page * options.limit : 0,
+      skip: options ? (options.page - 1) * options.limit : 0,
       take: options?.limit ?? 100,
     };
 

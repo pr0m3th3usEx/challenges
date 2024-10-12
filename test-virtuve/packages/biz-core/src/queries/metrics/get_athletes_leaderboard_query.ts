@@ -4,18 +4,18 @@ import { Athlete } from 'src/entities/athlete';
 import { Metric } from 'src/entities/metric';
 import { MetricType } from 'src/value_objects/metric_type';
 
-interface GetAthletesLeaderboardOptions {
+export interface GetAthletesLeaderboardOptions {
   metricType: MetricType;
   limit?: number;
 }
 
-interface GetAthletesLeaderboardResponse {
+export interface GetAthletesLeaderboardResponse {
   athletes: (Athlete & { avgValue: number })[];
 }
 
 // TODO Create custom exception for query
 
-export class GetAthletesLeaderboard {
+export class GetAthletesLeaderboardQuery {
   constructor(private readonly options: GetAthletesLeaderboardOptions) {}
 
   async execute(
@@ -36,7 +36,7 @@ export class GetAthletesLeaderboard {
 
     // Group metrics by athlete
     const metricsByAthletes = metrics.reduce((acc: Record<string, Metric[]>, metric) => {
-      if (metric.athleteId in acc) {
+      if (!(metric.athleteId in acc)) {
         acc[metric.athleteId] = [];
       }
 
