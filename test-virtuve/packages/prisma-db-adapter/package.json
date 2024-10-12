@@ -1,10 +1,27 @@
 {
   "name": "@virtuve/prisma-db-adapter",
   "version": "1.0.0",
-  "main": "build/index.js",
-  "types": "build/index.d.ts",
   "private": true,
   "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "default": "./build/src/index.js", 
+      "types": "./build/src/index.d.ts"
+    },
+    "./client": {
+      "default": "./build/src/client.js",
+      "types": "./build/src/client.d.ts"
+    },
+    "./athlete_repository": {
+      "default": "./build/src/athlete_repository.js",
+      "types": "./build/src/athlete_repository.d.ts"
+    },
+    "./metric_repository": {
+      "default": "./build/src/metric_repository.js",
+      "types": "./build/src/metric_repository.d.ts"
+    }
+  },
   "scripts": {
     "db:migrate": "prisma migrate dev",
     "db:migrate-prod": "prisma migrate deploy",

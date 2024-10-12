@@ -15,9 +15,9 @@
       "default": "./build/src/queries/athletes/get_athletes_query.js",
       "types": "./build/src/queries/athletes/get_athletes_query.d.ts"
     },
-    "./queries/athletes/get_athlete_query": {
-      "default": "./build/src/queries/athletes/get_athlete_query.js",
-      "types": "./build/src/queries/atheletes/get_athlete_query.d.ts"
+    "./queries/athletes/get_athlete_detail_query": {
+      "default": "./build/src/queries/athletes/get_athlete_detail_query.js",
+      "types": "./build/src/queries/athletes/get_athlete_detail_query.d.ts"
     },
     "./queries/metrics/get_athlete_metrics_aggregate_query": {
       "default": "./build/src/queries/metrics/get_athlete_metrics_aggregate_query.js",
