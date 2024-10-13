@@ -26,7 +26,7 @@ export class GetAthleteMetricsQuery {
 
     if (!athlete)
       throw new GetAthleteMetricsQueryException(
-        GetAthleteMetricsQueryError.AlthleteNotFound,
+        GetAthleteMetricsQueryError.AthleteNotFound,
         `Athlete not found: ${this.athleteId}`,
       );
 

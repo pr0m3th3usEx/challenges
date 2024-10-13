@@ -25,7 +25,7 @@ export class CreateMetricCommand {
 
     if (!athlete)
       throw new CreateMetricCommandException(
-        CreateMetricCommandError.AlthleteNotFound,
+        CreateMetricCommandError.AthleteNotFound,
         `Athlete not found: ${this.athleteId}`,
       );
 

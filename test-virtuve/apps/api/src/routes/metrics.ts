@@ -20,6 +20,7 @@ import {
   GetAthletesLeaderboardQueryException,
 } from '@virtuve/biz-core/exceptions';
 import { StatusCode } from 'hono/utils/http-status';
+import { CustomHttpException } from '../exception/http_exception.js';
 
 const metricsRoutes = new Hono();
 
@@ -42,7 +43,7 @@ metricsRoutes.post(
       return context.json({ id });
     } catch (err) {
       if (err instanceof CreateMetricCommandException) {
-        return context.json(err.getErrorData(), err.getStatus() as StatusCode);
+        throw new CustomHttpException(err.getStatus() as StatusCode, err.getErrorData());
       } else {
         console.error(err);
         return context.status(StatusCodes.INTERNAL_SERVER_ERROR);
@@ -76,7 +77,7 @@ metricsRoutes.get(
       });
     } catch (err) {
       if (err instanceof GetAthleteMetricsQueryException) {
-        return context.json(err.getErrorData(), err.getStatus() as StatusCode);
+        throw new CustomHttpException(err.getStatus() as StatusCode, err.getErrorData());
       } else {
         console.error(err);
         return context.status(StatusCodes.INTERNAL_SERVER_ERROR);
@@ -106,7 +107,7 @@ metricsRoutes.get(
       return context.json(results);
     } catch (err) {
       if (err instanceof GetAthleteMetricsAggregateQueryException) {
-        return context.json(err.getErrorData(), err.getStatus() as StatusCode);
+        throw new CustomHttpException(err.getStatus() as StatusCode, err.getErrorData());
       } else {
         console.error(err);
         return context.status(StatusCodes.INTERNAL_SERVER_ERROR);
@@ -130,7 +131,7 @@ metricsRoutes.get('/metrics/leaderboard', classValidator('query', GetAthletesLea
     return context.json(leaderboard);
   } catch (err) {
     if (err instanceof GetAthletesLeaderboardQueryException) {
-      return context.json(err.getErrorData(), err.getStatus() as StatusCode);
+      throw new CustomHttpException(err.getStatus() as StatusCode, err.getErrorData());
     } else {
       console.error(err);
       return context.status(StatusCodes.INTERNAL_SERVER_ERROR);

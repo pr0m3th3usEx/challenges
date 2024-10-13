@@ -2,8 +2,8 @@ import { ATHLETE_ENTITY_NAME } from '../entities/athlete.js';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export enum UpdateAthleteCommandError {
-  AlthleteNotFound,
-  ServiceError,
+  AthleteNotFound = 'AthleteNotFound',
+  ServiceError = 'ServiceError',
 }
 
 export class UpdateAthleteCommandException extends Error {
@@ -19,7 +19,7 @@ export class UpdateAthleteCommandException extends Error {
 
   getStatus(): number {
     switch (this.error) {
-      case UpdateAthleteCommandError.AlthleteNotFound:
+      case UpdateAthleteCommandError.AthleteNotFound:
         return 404;
       case UpdateAthleteCommandError.ServiceError:
         return 500;
@@ -28,7 +28,7 @@ export class UpdateAthleteCommandException extends Error {
 
   getErrorData(): any {
     switch (this.error) {
-      case UpdateAthleteCommandError.AlthleteNotFound:
+      case UpdateAthleteCommandError.AthleteNotFound:
         return { entity: ATHLETE_ENTITY_NAME };
       case UpdateAthleteCommandError.ServiceError:
         return undefined;

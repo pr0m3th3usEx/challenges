@@ -14,7 +14,7 @@ export class DeleteAthleteCommand {
       }))
     ) {
       throw new DeleteAthleteCommandException(
-        DeleteAthleteCommandError.AlthleteNotFound,
+        DeleteAthleteCommandError.AthleteNotFound,
         `Athlete not found: ${this.athleteId}`,
       );
     }

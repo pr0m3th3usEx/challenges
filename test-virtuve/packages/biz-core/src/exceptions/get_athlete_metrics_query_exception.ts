@@ -2,8 +2,8 @@ import { ATHLETE_ENTITY_NAME } from '../entities/athlete.js';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export enum GetAthleteMetricsQueryError {
-  AlthleteNotFound,
-  ServiceError,
+  AthleteNotFound = 'AthleteNotFound',
+  ServiceError = 'ServiceError',
 }
 
 export class GetAthleteMetricsQueryException extends Error {
@@ -19,7 +19,7 @@ export class GetAthleteMetricsQueryException extends Error {
 
   getStatus(): number {
     switch (this.error) {
-      case GetAthleteMetricsQueryError.AlthleteNotFound:
+      case GetAthleteMetricsQueryError.AthleteNotFound:
         return 404;
       case GetAthleteMetricsQueryError.ServiceError:
         return 500;
@@ -28,7 +28,7 @@ export class GetAthleteMetricsQueryException extends Error {
 
   getErrorData(): any {
     switch (this.error) {
-      case GetAthleteMetricsQueryError.AlthleteNotFound:
+      case GetAthleteMetricsQueryError.AthleteNotFound:
         return { entity: ATHLETE_ENTITY_NAME };
       case GetAthleteMetricsQueryError.ServiceError:
         return undefined;

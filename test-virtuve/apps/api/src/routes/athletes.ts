@@ -16,6 +16,7 @@ import {
   UpdateAthleteCommandException,
 } from '@virtuve/biz-core/exceptions';
 import { StatusCode } from 'hono/utils/http-status';
+import { CustomHttpException } from '../exception/http_exception.js';
 
 const athleteRoutes = new Hono().basePath('/athletes');
 
@@ -34,7 +35,7 @@ athleteRoutes.post('/', classValidator('json', CreateAthleteDto), async (context
     });
   } catch (err) {
     if (err instanceof SaveAthleteCommandException) {
-      return context.json(err.getErrorData(), err.getStatus() as StatusCode);
+      throw new CustomHttpException(err.getStatus() as StatusCode, err.getErrorData());
     } else {
       console.error(err);
       return context.status(StatusCodes.INTERNAL_SERVER_ERROR);
@@ -56,7 +57,7 @@ athleteRoutes.get('/', async (context) => {
     });
   } catch (err) {
     if (err instanceof GetAthletesQueryException) {
-      return context.json(err.getErrorData(), err.getStatus() as StatusCode);
+      throw new CustomHttpException(err.getStatus() as StatusCode, err.getErrorData());
     } else {
       console.error(err);
       return context.status(StatusCodes.INTERNAL_SERVER_ERROR);
@@ -77,7 +78,12 @@ athleteRoutes.get(':id', classValidator('param', GetAthleteQueryDto), async (con
     return context.json(athleteDetail);
   } catch (err) {
     if (err instanceof GetAthleteDetailQueryException) {
-      return context.json(err.getErrorData(), err.getStatus() as StatusCode);
+      throw new CustomHttpException(err.getStatus() as StatusCode, {
+        cause: {
+          name: err.getErrorType(),
+          error: err.getError(),
+        },
+      });
     } else {
       console.error(err);
       return context.status(StatusCodes.INTERNAL_SERVER_ERROR);
@@ -105,7 +111,7 @@ athleteRoutes.put(
       return context.body(null, StatusCodes.NO_CONTENT);
     } catch (err) {
       if (err instanceof UpdateAthleteCommandException) {
-        return context.json(err.getErrorData(), err.getStatus() as StatusCode);
+        throw new CustomHttpException(err.getStatus() as StatusCode, err.getErrorData());
       } else {
         console.error(err);
         return context.status(StatusCodes.INTERNAL_SERVER_ERROR);
@@ -126,7 +132,7 @@ athleteRoutes.delete(':id', classValidator('param', GetAthleteQueryDto), async (
     return context.body(null, StatusCodes.NO_CONTENT);
   } catch (err) {
     if (err instanceof DeleteAthleteCommandException) {
-      return context.json(err.getErrorData(), err.getStatus() as StatusCode);
+      throw new CustomHttpException(err.getStatus() as StatusCode, err.getErrorData());
     } else {
       console.error(err);
       return context.status(StatusCodes.INTERNAL_SERVER_ERROR);

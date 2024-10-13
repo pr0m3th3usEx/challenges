@@ -7,6 +7,7 @@ const config = {
   },
   gateway: {
     port: env.get('API_PORT').default(3000).asPortNumber(),
+    logLevel: env.get('LOG_LEVEL').default('debug').asEnum(['info', 'error', 'warn', 'debug']),
   },
   cors: {
     allowed_origins: env.get('CORS_ALLOWED_ORIGINS').default('*').asArray(','),

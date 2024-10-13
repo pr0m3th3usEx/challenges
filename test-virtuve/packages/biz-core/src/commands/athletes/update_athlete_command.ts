@@ -16,7 +16,7 @@ export class UpdateAthleteCommand {
 
     if (!old) {
       throw new UpdateAthleteCommandException(
-        UpdateAthleteCommandError.AlthleteNotFound,
+        UpdateAthleteCommandError.AthleteNotFound,
         `Athlete not found: ${this.data.id}`,
       );
     }

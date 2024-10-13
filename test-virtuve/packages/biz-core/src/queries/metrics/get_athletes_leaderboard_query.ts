@@ -68,7 +68,7 @@ export class GetAthletesLeaderboardQuery {
 
       if (!athlete) {
         throw new GetAthletesLeaderboardQueryException(
-          GetAthletesLeaderboardQueryError.AlthleteNotFound,
+          GetAthletesLeaderboardQueryError.AthleteNotFound,
           `Athlete not found: ${athleteId}`,
         );
       }

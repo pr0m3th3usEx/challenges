@@ -4,7 +4,9 @@ import config from './config/index.js';
 import { cors } from 'hono/cors';
 import athleteRoutes from './routes/athletes.js';
 import metricsRoutes from './routes/metrics.js';
-import { logger } from 'hono/logger';
+import { requestId } from 'hono/request-id';
+import customLogger from './utils/logger.js';
+import { v4 } from 'uuid';
 
 const app = new Hono();
 
@@ -16,15 +18,19 @@ app.use(
     credentials: true,
   }),
 );
+app.use(
+  requestId({
+    generator: () => v4(),
+  }),
+);
 
-app.use(logger());
+app.use(customLogger);
 
-// Error Handling
 // Logger
 // Request ID
 // Caching (Redis)
-// Monitoring (Grafana, Prometheus)
 // Deployment (Docker, Terraform)
+// Monitoring (Grafana, Prometheus)
 // Documentation (Swagger, Readme)
 // Testing (Validation tests)
 

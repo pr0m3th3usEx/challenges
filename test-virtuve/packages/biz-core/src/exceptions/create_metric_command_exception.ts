@@ -2,8 +2,8 @@ import { ATHLETE_ENTITY_NAME } from '../entities/athlete.js';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export enum CreateMetricCommandError {
-  AlthleteNotFound,
-  ServiceError,
+  AthleteNotFound = 'AthleteNotFound',
+  ServiceError = 'ServiceError',
 }
 
 export class CreateMetricCommandException extends Error {
@@ -19,7 +19,7 @@ export class CreateMetricCommandException extends Error {
 
   getStatus(): number {
     switch (this.error) {
-      case CreateMetricCommandError.AlthleteNotFound:
+      case CreateMetricCommandError.AthleteNotFound:
         return 404;
       case CreateMetricCommandError.ServiceError:
         return 500;
@@ -28,7 +28,7 @@ export class CreateMetricCommandException extends Error {
 
   getErrorData(): any {
     switch (this.error) {
-      case CreateMetricCommandError.AlthleteNotFound:
+      case CreateMetricCommandError.AthleteNotFound:
         return { entity: ATHLETE_ENTITY_NAME };
       case CreateMetricCommandError.ServiceError:
         return undefined;
