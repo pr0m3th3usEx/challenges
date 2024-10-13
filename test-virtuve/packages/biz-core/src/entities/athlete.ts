@@ -4,3 +4,5 @@ export interface Athlete {
   readonly age: number;
   readonly team: string;
 }
+
+export const ATHLETE_ENTITY_NAME = 'athlete';

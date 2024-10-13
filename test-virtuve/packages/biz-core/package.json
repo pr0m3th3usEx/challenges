@@ -46,6 +46,10 @@
     "./commands/metrics/create_metric_command": {
       "default": "./build/src/commands/metrics/create_metric_command.js",
       "types": "./build/src/commands/metrics/create_metric_command.d.ts"
+    },
+    "./exceptions": {
+      "default": "./build/src/exceptions/index.js",
+      "types": "./build/src/exceptions/index.d.ts"
     }
   },
   "license": "MIT",

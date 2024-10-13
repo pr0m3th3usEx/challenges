@@ -1,3 +1,7 @@
+import {
+  CreateMetricCommandError,
+  CreateMetricCommandException,
+} from '../../exceptions/create_metric_command_exception.js';
 import { AthleteRepository } from '../../contracts/repositories/athlete_repository.js';
 import { MetricRepository } from '../../contracts/repositories/metric_repository.js';
 import { Metric } from '../../entities/metric.js';
@@ -15,11 +19,15 @@ export class CreateMetricCommand {
   ) {}
 
   async execute(athlete_repository: AthleteRepository, metric_repository: MetricRepository): Promise<string /** id */> {
-    const athlete = await athlete_repository.get(this.athleteId).catch((_err) => {
-      throw new Error('Service error');
+    const athlete = await athlete_repository.get(this.athleteId).catch((err) => {
+      throw new CreateMetricCommandException(CreateMetricCommandError.ServiceError, err);
     });
 
-    if (!athlete) throw new Error('Athlete not found');
+    if (!athlete)
+      throw new CreateMetricCommandException(
+        CreateMetricCommandError.AlthleteNotFound,
+        `Athlete not found: ${this.athleteId}`,
+      );
 
     const metric: Metric = {
       id: v4(),

@@ -1,8 +1,10 @@
 import { v4 } from 'uuid';
 import { AthleteRepository } from '../../contracts/repositories/athlete_repository.js';
-import { Athlete } from '../../entities/athlete';
-
-// TODO Create custom exception for command
+import { Athlete } from '../../entities/athlete.js';
+import {
+  SaveAthleteCommandError,
+  SaveAthleteCommandException,
+} from '../../exceptions/save_athlete_command_exception.js';
 
 export class SaveAthleteCommand {
   constructor(
@@ -23,8 +25,8 @@ export class SaveAthleteCommand {
       const { id: athleteId } = await athlete_repository.save(athlete);
 
       return athleteId;
-    } catch (_err) {
-      throw new Error('Service Error');
+    } catch (err: unknown) {
+      throw new SaveAthleteCommandException(SaveAthleteCommandError.ServiceError, err);
     }
   }
 }

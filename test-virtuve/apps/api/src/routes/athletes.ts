@@ -8,6 +8,12 @@ import { StatusCodes } from 'http-status-codes';
 import { CreateAthleteDto, GetAthleteQueryDto, UpdateAthleteDto } from '../dto/athlete.dto.js';
 import { classValidator } from '../middleware/classValidator.js';
 import { athleteRepository, metricRepository } from '../utils/repositories.js';
+import {
+  DeleteAthleteCommandException,
+  SaveAthleteCommandException,
+  UpdateAthleteCommandException,
+} from '@virtuve/biz-core/exceptions';
+import { StatusCode } from 'hono/utils/http-status';
 
 const athleteRoutes = new Hono().basePath('/athletes');
 
@@ -25,8 +31,12 @@ athleteRoutes.post('/', classValidator('json', CreateAthleteDto), async (context
       id,
     });
   } catch (err) {
-    console.log(err);
-    context.status(StatusCodes.INTERNAL_SERVER_ERROR);
+    if (err instanceof SaveAthleteCommandException) {
+      return context.json(err.getErrorData(), err.getStatus() as StatusCode);
+    } else {
+      console.error(err);
+      return context.status(StatusCodes.INTERNAL_SERVER_ERROR);
+    }
   }
 });
 
@@ -63,8 +73,6 @@ athleteRoutes.get(':id', classValidator('param', GetAthleteQueryDto), async (con
     console.error(err);
     return context.status(StatusCodes.INTERNAL_SERVER_ERROR);
   }
-
-  return context.text('Hey', 200);
 });
 
 /**
@@ -84,9 +92,14 @@ athleteRoutes.put(
 
     try {
       await command.execute(athleteRepository);
+      return context.body(null, StatusCodes.NO_CONTENT);
     } catch (err) {
-      console.error(err);
-      return context.status(StatusCodes.INTERNAL_SERVER_ERROR);
+      if (err instanceof UpdateAthleteCommandException) {
+        return context.json(err.getErrorData(), err.getStatus() as StatusCode);
+      } else {
+        console.error(err);
+        return context.status(StatusCodes.INTERNAL_SERVER_ERROR);
+      }
     }
   },
 );
@@ -103,8 +116,12 @@ athleteRoutes.delete(':id', classValidator('param', GetAthleteQueryDto), async (
 
     return context.status(StatusCodes.NO_CONTENT);
   } catch (err) {
-    console.error(err);
-    return context.status(StatusCodes.INTERNAL_SERVER_ERROR);
+    if (err instanceof DeleteAthleteCommandException) {
+      return context.json(err.getErrorData(), err.getStatus() as StatusCode);
+    } else {
+      console.error(err);
+      return context.status(StatusCodes.INTERNAL_SERVER_ERROR);
+    }
   }
 });
 

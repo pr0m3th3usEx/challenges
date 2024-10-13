@@ -1,23 +1,28 @@
+import {
+  DeleteAthleteCommandError,
+  DeleteAthleteCommandException,
+} from '../../exceptions/delete_athlete_command_exception.js';
 import { AthleteRepository } from '../../contracts/repositories/athlete_repository.js';
-
-// TODO Create custom exception for DeleteCommand
 
 export class DeleteAthleteCommand {
   constructor(private readonly athleteId: string) {}
 
   async execute(athlete_repository: AthleteRepository): Promise<void> {
     if (
-      await athlete_repository.get(this.athleteId).catch(() => {
-        throw new Error('Service error');
-      })
+      !(await athlete_repository.get(this.athleteId).catch((err) => {
+        throw new DeleteAthleteCommandException(DeleteAthleteCommandError.ServiceError, err);
+      }))
     ) {
-      throw new Error('Athlete not found');
+      throw new DeleteAthleteCommandException(
+        DeleteAthleteCommandError.AlthleteNotFound,
+        `Athlete not found: ${this.athleteId}`,
+      );
     }
 
     try {
       await athlete_repository.delete(this.athleteId);
-    } catch (_err) {
-      throw new Error('Service error');
+    } catch (err) {
+      throw new DeleteAthleteCommandException(DeleteAthleteCommandError.ServiceError, err);
     }
   }
 }

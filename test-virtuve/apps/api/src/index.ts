@@ -4,6 +4,7 @@ import config from './config/index.js';
 import { cors } from 'hono/cors';
 import athleteRoutes from './routes/athletes.js';
 import metricsRoutes from './routes/metrics.js';
+import { logger } from 'hono/logger';
 
 const app = new Hono();
 
@@ -16,13 +17,23 @@ app.use(
   }),
 );
 
+app.use(logger());
+
+// Error Handling
+// Logger
+// Request ID
+// Caching (Redis)
+// Monitoring (Grafana, Prometheus)
+// Deployment (Docker, Terraform)
+// Documentation (Swagger, Readme)
+// Testing (Validation tests)
+
 app.route('/', athleteRoutes);
 app.route('/', metricsRoutes);
 
-const port = 3000;
-console.log(`Server is running on port ${port}`);
+console.log(`Server is running on port ${config.gateway.port}`);
 
 serve({
   fetch: app.fetch,
-  port,
+  port: config.gateway.port,
 });

@@ -13,6 +13,8 @@ import {
 } from '../dto/metric.dto.js';
 import { classValidator } from '../middleware/classValidator.js';
 import { athleteRepository, metricRepository } from '../utils/repositories.js';
+import { CreateMetricCommandException } from '@virtuve/biz-core/exceptions';
+import { StatusCode } from 'hono/utils/http-status';
 
 const metricsRoutes = new Hono();
 
@@ -34,8 +36,12 @@ metricsRoutes.post(
 
       return context.json({ id });
     } catch (err) {
-      console.error(err);
-      return context.status(StatusCodes.INTERNAL_SERVER_ERROR);
+      if (err instanceof CreateMetricCommandException) {
+        return context.json(err.getErrorData(), err.getStatus() as StatusCode);
+      } else {
+        console.error(err);
+        return context.status(StatusCodes.INTERNAL_SERVER_ERROR);
+      }
     }
   },
 );
