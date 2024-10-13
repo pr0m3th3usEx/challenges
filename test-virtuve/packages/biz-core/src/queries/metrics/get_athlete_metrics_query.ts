@@ -1,3 +1,7 @@
+import {
+  GetAthleteMetricsQueryError,
+  GetAthleteMetricsQueryException,
+} from '../../exceptions/get_athlete_metrics_query_exception.js';
 import { AthleteRepository } from '../../contracts/repositories/athlete_repository.js';
 import { MetricRepository } from '../../contracts/repositories/metric_repository.js';
 import { Metric } from '../../entities/metric.js';
@@ -9,8 +13,6 @@ export interface GetAthleteMetricsQueryOptions {
   end?: Date;
 }
 
-// TODO Create custom exception for query
-
 export class GetAthleteMetricsQuery {
   constructor(
     private readonly athleteId: string,
@@ -18,11 +20,15 @@ export class GetAthleteMetricsQuery {
   ) {}
 
   async execute(athlete_repository: AthleteRepository, metric_repository: MetricRepository): Promise<Metric[]> {
-    const athlete = await athlete_repository.get(this.athleteId).catch((_) => {
-      throw new Error('Service error');
+    const athlete = await athlete_repository.get(this.athleteId).catch((err) => {
+      throw new GetAthleteMetricsQueryException(GetAthleteMetricsQueryError.ServiceError, err);
     });
 
-    if (!athlete) throw new Error('Athlete not found');
+    if (!athlete)
+      throw new GetAthleteMetricsQueryException(
+        GetAthleteMetricsQueryError.AlthleteNotFound,
+        `Athlete not found: ${this.athleteId}`,
+      );
 
     const metrics = await metric_repository
       .getAthleteMetrics(this.athleteId, {
@@ -32,8 +38,8 @@ export class GetAthleteMetricsQuery {
         start: this.options.start,
         end: this.options.end,
       })
-      .catch((_) => {
-        throw new Error('Service error');
+      .catch((err) => {
+        throw new GetAthleteMetricsQueryException(GetAthleteMetricsQueryError.ServiceError, err);
       });
 
     return metrics;

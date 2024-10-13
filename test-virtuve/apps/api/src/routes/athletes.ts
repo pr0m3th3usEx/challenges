@@ -10,6 +10,8 @@ import { classValidator } from '../middleware/classValidator.js';
 import { athleteRepository, metricRepository } from '../utils/repositories.js';
 import {
   DeleteAthleteCommandException,
+  GetAthleteDetailQueryException,
+  GetAthletesQueryException,
   SaveAthleteCommandException,
   UpdateAthleteCommandException,
 } from '@virtuve/biz-core/exceptions';
@@ -53,8 +55,12 @@ athleteRoutes.get('/', async (context) => {
       athletes,
     });
   } catch (err) {
-    console.error(err);
-    return context.status(StatusCodes.INTERNAL_SERVER_ERROR);
+    if (err instanceof GetAthletesQueryException) {
+      return context.json(err.getErrorData(), err.getStatus() as StatusCode);
+    } else {
+      console.error(err);
+      return context.status(StatusCodes.INTERNAL_SERVER_ERROR);
+    }
   }
 });
 
@@ -70,8 +76,12 @@ athleteRoutes.get(':id', classValidator('param', GetAthleteQueryDto), async (con
 
     return context.json(athleteDetail);
   } catch (err) {
-    console.error(err);
-    return context.status(StatusCodes.INTERNAL_SERVER_ERROR);
+    if (err instanceof GetAthleteDetailQueryException) {
+      return context.json(err.getErrorData(), err.getStatus() as StatusCode);
+    } else {
+      console.error(err);
+      return context.status(StatusCodes.INTERNAL_SERVER_ERROR);
+    }
   }
 });
 
@@ -113,8 +123,7 @@ athleteRoutes.delete(':id', classValidator('param', GetAthleteQueryDto), async (
 
   try {
     await command.execute(athleteRepository);
-
-    return context.status(StatusCodes.NO_CONTENT);
+    return context.body(null, StatusCodes.NO_CONTENT);
   } catch (err) {
     if (err instanceof DeleteAthleteCommandException) {
       return context.json(err.getErrorData(), err.getStatus() as StatusCode);

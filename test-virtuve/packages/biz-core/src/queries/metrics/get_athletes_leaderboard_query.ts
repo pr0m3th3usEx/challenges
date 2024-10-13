@@ -1,3 +1,7 @@
+import {
+  GetAthletesLeaderboardQueryError,
+  GetAthletesLeaderboardQueryException,
+} from '../../exceptions/get_athletes_leaderboard_query_exception.js';
 import { AthleteRepository } from '../../contracts/repositories/athlete_repository.js';
 import { MetricRepository } from '../../contracts/repositories/metric_repository.js';
 import { Athlete } from '../../entities/athlete.js';
@@ -12,8 +16,6 @@ export interface GetAthletesLeaderboardOptions {
 export interface GetAthletesLeaderboardResponse {
   athletes: (Athlete & { avgValue: number })[];
 }
-
-// TODO Create custom exception for query
 
 export class GetAthletesLeaderboardQuery {
   constructor(private readonly options: GetAthletesLeaderboardOptions) {}
@@ -30,8 +32,8 @@ export class GetAthletesLeaderboardQuery {
         limit: 10000,
         metricType: this.options.metricType,
       })
-      .catch((_) => {
-        throw new Error('Service error');
+      .catch((err) => {
+        throw new GetAthletesLeaderboardQueryException(GetAthletesLeaderboardQueryError.ServiceError, err);
       });
 
     // Group metrics by athlete
@@ -60,12 +62,15 @@ export class GetAthletesLeaderboardQuery {
 
     // Find athletes
     const promises = highestAverageValues.map(async ({ athleteId, avgValue }) => {
-      const athlete = await athlete_repository.get(athleteId).catch((_) => {
-        throw new Error('Service error');
+      const athlete = await athlete_repository.get(athleteId).catch((err) => {
+        throw new GetAthletesLeaderboardQueryException(GetAthletesLeaderboardQueryError.ServiceError, err);
       });
 
       if (!athlete) {
-        throw new Error('Athlete not found');
+        throw new GetAthletesLeaderboardQueryException(
+          GetAthletesLeaderboardQueryError.AlthleteNotFound,
+          `Athlete not found: ${athleteId}`,
+        );
       }
 
       return {

@@ -3,7 +3,7 @@ import { GetAthleteMetricsAggregateQuery } from '@virtuve/biz-core/queries/metri
 import { GetAthleteMetricsQuery } from '@virtuve/biz-core/queries/metrics/get_athlete_metrics_query';
 import { GetAthletesLeaderboardQuery } from '@virtuve/biz-core/queries/metrics/get_athletes_leaderboard_query';
 import { Hono } from 'hono';
-import { StatusCodes, ReasonPhrases } from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 import { GetAthleteQueryDto } from '../dto/athlete.dto.js';
 import {
   CreateMetricDto,
@@ -13,7 +13,12 @@ import {
 } from '../dto/metric.dto.js';
 import { classValidator } from '../middleware/classValidator.js';
 import { athleteRepository, metricRepository } from '../utils/repositories.js';
-import { CreateMetricCommandException } from '@virtuve/biz-core/exceptions';
+import {
+  CreateMetricCommandException,
+  GetAthleteMetricsAggregateQueryException,
+  GetAthleteMetricsQueryException,
+  GetAthletesLeaderboardQueryException,
+} from '@virtuve/biz-core/exceptions';
 import { StatusCode } from 'hono/utils/http-status';
 
 const metricsRoutes = new Hono();
@@ -70,8 +75,12 @@ metricsRoutes.get(
         metrics,
       });
     } catch (err) {
-      console.error(err);
-      return context.text(ReasonPhrases.INTERNAL_SERVER_ERROR, StatusCodes.INTERNAL_SERVER_ERROR);
+      if (err instanceof GetAthleteMetricsQueryException) {
+        return context.json(err.getErrorData(), err.getStatus() as StatusCode);
+      } else {
+        console.error(err);
+        return context.status(StatusCodes.INTERNAL_SERVER_ERROR);
+      }
     }
   },
 );
@@ -96,8 +105,12 @@ metricsRoutes.get(
 
       return context.json(results);
     } catch (err) {
-      console.error(err);
-      context.text(ReasonPhrases.INTERNAL_SERVER_ERROR, StatusCodes.INTERNAL_SERVER_ERROR);
+      if (err instanceof GetAthleteMetricsAggregateQueryException) {
+        return context.json(err.getErrorData(), err.getStatus() as StatusCode);
+      } else {
+        console.error(err);
+        return context.status(StatusCodes.INTERNAL_SERVER_ERROR);
+      }
     }
   },
 );
@@ -116,8 +129,12 @@ metricsRoutes.get('/metrics/leaderboard', classValidator('query', GetAthletesLea
 
     return context.json(leaderboard);
   } catch (err) {
-    console.error(err);
-    return context.text(ReasonPhrases.INTERNAL_SERVER_ERROR, StatusCodes.INTERNAL_SERVER_ERROR);
+    if (err instanceof GetAthletesLeaderboardQueryException) {
+      return context.json(err.getErrorData(), err.getStatus() as StatusCode);
+    } else {
+      console.error(err);
+      return context.status(StatusCodes.INTERNAL_SERVER_ERROR);
+    }
   }
 });
 

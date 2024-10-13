@@ -3,6 +3,10 @@ import { MetricRepository } from '../../contracts/repositories/metric_repository
 import { Metric } from '../../entities/metric.js';
 import { MetricType } from '../../value_objects/metric_type.js';
 import { mean, standardDeviation } from '../../utils/math.js';
+import {
+  GetAthleteMetricsAggregateQueryError,
+  GetAthleteMetricsAggregateQueryException,
+} from '../../exceptions/get_athlete_metrics_aggregate_query_exception.js';
 
 export interface GetAthleteMetricsAggregateQueryOptions {
   metricType?: MetricType;
@@ -38,8 +42,6 @@ export interface GetAthleteMetricsAggregateQueryResponse {
   }[];
 }
 
-// TODO Create custom exception for query
-
 export class GetAthleteMetricsAggregateQuery {
   constructor(
     private readonly athleteId: string,
@@ -55,7 +57,11 @@ export class GetAthleteMetricsAggregateQuery {
           value: mean(data),
         };
       case AthleteMetricsAggregateOperation.MINMAX:
-        if (data.length === 0) throw new Error('Not computable');
+        if (data.length === 0)
+          throw new GetAthleteMetricsAggregateQueryException(
+            GetAthleteMetricsAggregateQueryError.ComputationImpossible,
+            null,
+          );
         return {
           min: Math.min(...data),
           max: Math.max(...data),
@@ -75,8 +81,8 @@ export class GetAthleteMetricsAggregateQuery {
     athlete_repository: AthleteRepository,
     metric_repository: MetricRepository,
   ): Promise<GetAthleteMetricsAggregateQueryResponse> {
-    const athlete = await athlete_repository.get(this.athleteId).catch((_) => {
-      throw new Error('Service error');
+    const athlete = await athlete_repository.get(this.athleteId).catch((err) => {
+      throw new GetAthleteMetricsAggregateQueryException(GetAthleteMetricsAggregateQueryError.ServiceError, err);
     });
 
     if (!athlete) throw new Error('Athlete not found');
@@ -87,26 +93,22 @@ export class GetAthleteMetricsAggregateQuery {
         limit: 10000,
         metricType: this.options.metricType,
       })
-      .catch((_) => {
-        throw new Error('Service error');
+      .catch((err) => {
+        throw new GetAthleteMetricsAggregateQueryException(GetAthleteMetricsAggregateQueryError.ServiceError, err);
       });
 
     // Compute for single metric
     if (this.options.metricType) {
-      try {
-        const result = this.computeAggregate(metrics, this.options.operation);
+      const result = this.computeAggregate(metrics, this.options.operation);
 
-        return {
-          results: [
-            {
-              metricType: this.options.metricType,
-              result,
-            },
-          ],
-        };
-      } catch (_) {
-        throw new Error('Computation failed');
-      }
+      return {
+        results: [
+          {
+            metricType: this.options.metricType,
+            result,
+          },
+        ],
+      };
     }
 
     // Compute every metric type
@@ -126,16 +128,12 @@ export class GetAthleteMetricsAggregateQuery {
     );
 
     const results = Object.entries(metricsByMetricType).map(([metricType, data]) => {
-      try {
-        const result = this.computeAggregate(data, this.options.operation);
+      const result = this.computeAggregate(data, this.options.operation);
 
-        return {
-          metricType: metricType as MetricType,
-          result,
-        };
-      } catch (_) {
-        throw new Error('Computation failed');
-      }
+      return {
+        metricType: metricType as MetricType,
+        result,
+      };
     });
 
     return {
