@@ -5,9 +5,9 @@ import { GetAthleteDetailQuery } from '@virtuve/biz-core/queries/athletes/get_at
 import { GetAthletesQuery } from '@virtuve/biz-core/queries/get_athletes_query';
 import { Hono } from 'hono';
 import { StatusCodes } from 'http-status-codes';
-import { CreateAthleteDto, GetAthleteQueryDto, UpdateAthleteDto } from 'src/dto/athlete.dto';
-import { classValidator } from 'src/middleware/classValidator';
-import { athleteRepository, metricRepository } from 'src/utils/repositories';
+import { CreateAthleteDto, GetAthleteQueryDto, UpdateAthleteDto } from '../dto/athlete.dto.js';
+import { classValidator } from '../middleware/classValidator.js';
+import { athleteRepository, metricRepository } from '../utils/repositories.js';
 
 const athleteRoutes = new Hono().basePath('/athletes');
 

@@ -1,5 +1,5 @@
-import { AthleteRepository } from 'src/contracts/repositories/athlete_repository';
-import { Athlete } from 'src/entities/athlete';
+import { AthleteRepository } from '../../contracts/repositories/athlete_repository.js';
+import { Athlete } from '../../entities/athlete.js';
 
 // TODO create custom exception query
 // TODO Add pagination

@@ -1,7 +1,7 @@
-import { AthleteRepository } from 'src/contracts/repositories/athlete_repository';
-import { MetricRepository } from 'src/contracts/repositories/metric_repository';
-import { Athlete } from 'src/entities/athlete';
-import { Metric } from 'src/entities/metric';
+import { AthleteRepository } from '../../contracts/repositories/athlete_repository.js';
+import { MetricRepository } from '../../contracts/repositories/metric_repository.js';
+import { Athlete } from '../../entities/athlete.js';
+import { Metric } from '../../entities/metric.js';
 
 export interface GetAthleteDetailQueryResponse extends Athlete {
   metrics: Metric[];

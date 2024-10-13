@@ -4,15 +4,15 @@ import { GetAthleteMetricsQuery } from '@virtuve/biz-core/queries/metrics/get_at
 import { GetAthletesLeaderboardQuery } from '@virtuve/biz-core/queries/metrics/get_athletes_leaderboard_query';
 import { Hono } from 'hono';
 import { StatusCodes, ReasonPhrases } from 'http-status-codes';
-import { GetAthleteQueryDto } from 'src/dto/athlete.dto';
+import { GetAthleteQueryDto } from '../dto/athlete.dto.js';
 import {
   CreateMetricDto,
   GetAthleteMetricsAggregateQueryDto,
   GetAthleteMetricsQueryDto,
   GetAthletesLeaderboardQueryDto,
-} from 'src/dto/metric.dto';
-import { classValidator } from 'src/middleware/classValidator';
-import { athleteRepository, metricRepository } from 'src/utils/repositories';
+} from '../dto/metric.dto.js';
+import { classValidator } from '../middleware/classValidator.js';
+import { athleteRepository, metricRepository } from '../utils/repositories.js';
 
 const metricsRoutes = new Hono();
 

@@ -1,4 +1,4 @@
-import { Athlete } from '../../entities/athlete';
+import { Athlete } from '../../entities/athlete.js';
 
 export type AthleteGetAllOptions = {
   page: number;

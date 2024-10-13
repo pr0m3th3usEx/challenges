@@ -8,8 +8,15 @@
     "experimentalDecorators": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
+    // "composite": true,
+    // "declaration": true,
+    "noUncheckedSideEffectImports": true,
     "baseUrl": ".",
+    "rootDir": ".",
     "outDir": "./build",
+    "paths": {
+      "src/*": ["./src/*"],
+    },
     "types": [
       "node"
     ],

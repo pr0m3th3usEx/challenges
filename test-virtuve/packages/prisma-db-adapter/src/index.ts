@@ -1,4 +1,4 @@
-export * from './client';
+export * from './client.js';
 
-export { PrismaAthleteRepository } from './athlete_repository';
-export { PrismaMetricRepository } from './metric_repository';
+export { PrismaAthleteRepository } from './athlete_repository.js';
+export { PrismaMetricRepository } from './metric_repository.js';

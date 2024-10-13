@@ -1,7 +1,7 @@
-import { AthleteRepository } from 'src/contracts/repositories/athlete_repository';
-import { MetricRepository } from 'src/contracts/repositories/metric_repository';
-import { Metric } from 'src/entities/metric';
-import { MetricType } from 'src/value_objects/metric_type';
+import { AthleteRepository } from '../../contracts/repositories/athlete_repository.js';
+import { MetricRepository } from '../../contracts/repositories/metric_repository.js';
+import { Metric } from '../../entities/metric.js';
+import { MetricType } from '../../value_objects/metric_type.js';
 
 export interface GetAthleteMetricsQueryOptions {
   metricType?: MetricType;

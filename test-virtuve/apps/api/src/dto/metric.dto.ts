@@ -1,8 +1,8 @@
 import { IsDateString, IsEnum, IsInt, IsNumber, IsOptional, Length, Max, Min } from 'class-validator';
-import { MetricType } from '@virtuve/biz-core/value_objects';
 import { Transform } from 'class-transformer';
-import { IsValidDateRange } from 'src/utils/validation';
+import { MetricType } from '@virtuve/biz-core/value_objects';
 import { AthleteMetricsAggregateOperation } from '@virtuve/biz-core/queries/metrics/get_athlete_metrics_aggregate_query';
+import { IsValidDateRange } from '../utils/validation/index.js';
 
 export class CreateMetricDto {
   @IsNumber()

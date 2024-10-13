@@ -1,4 +1,4 @@
-import { MetricType } from '../value_objects/metric_type';
+import { MetricType } from '../value_objects/metric_type.js';
 
 export interface Metric {
   readonly id: string;

@@ -1,5 +1,5 @@
-import { MetricType } from 'src/value_objects/metric_type';
-import { Metric } from '../../entities/metric';
+import { MetricType } from '../../value_objects/metric_type.js';
+import { Metric } from '../../entities/metric.js';
 
 export type MetricGetAllOptions = {
   page: number;

@@ -1,4 +1,4 @@
-import { AthleteRepository } from 'src/contracts/repositories/athlete_repository';
+import { AthleteRepository } from '../../contracts/repositories/athlete_repository.js';
 
 // TODO Create custom exception for DeleteCommand
 

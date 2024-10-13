@@ -1,10 +1,10 @@
 import { v4 } from 'uuid';
-import { AthleteRepository } from 'src/contracts/repositories/athlete_repository';
-import { Athlete } from 'src/entities/athlete';
+import { AthleteRepository } from '../../contracts/repositories/athlete_repository.js';
+import { Athlete } from '../../entities/athlete';
 
 // TODO Create custom exception for command
 
-export class SaveAtlheteCommand {
+export class SaveAthleteCommand {
   constructor(
     private readonly name: string,
     private readonly age: number,

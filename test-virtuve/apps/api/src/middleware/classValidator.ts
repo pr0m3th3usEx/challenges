@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { validator } from 'hono/validator';
 import { ClassConstructor } from 'class-transformer';
-import { parseAndValidateDto } from 'src/utils/validator';
+import { parseAndValidateDto } from '../utils/validator.js';
 import { StatusCodes } from 'http-status-codes';
 import { ValidationTargets } from 'hono';
 
