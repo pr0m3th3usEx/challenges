@@ -1,7 +1,7 @@
 {
   "name": "@virtuve/api",
   "version": "1.0.0",
-  "type": "commonjs",
+  "type": "module",
   "main": "build/index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
