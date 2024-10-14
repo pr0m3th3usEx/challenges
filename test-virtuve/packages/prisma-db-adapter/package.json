@@ -10,8 +10,8 @@
       "types": "./build/src/index.d.ts"
     },
     "./client": {
-      "default": "./build/src/client.js",
-      "types": "./build/src/client.d.ts"
+      "default": "./build/generated/client/index.js",
+      "types": "./build/generated/client/index.d.ts"
     },
     "./athlete_repository": {
       "default": "./build/src/athlete_repository.js",
@@ -35,7 +35,7 @@
     "lint": "eslint \"src/**/*.ts*\"",
     "lint:fix": "eslint --fix \"src/**/*.ts*\"",
     "format": "prettier ./src --write",
-    "build": "tsc",
+    "build": "prisma generate && tsc",
     "fclean": "rm -rf build"
   },
   "dependencies": {

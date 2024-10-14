@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '../build/generated/client';
 import { Metric, MetricGetAllOptions, MetricRepository, MetricType } from '@virtuve/biz-core';
 
 export class PrismaMetricRepository implements MetricRepository {

@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '../build/generated/client';
 import { Athlete, AthleteGetAllOptions, AthleteRepository } from '@virtuve/biz-core';
 
 export class PrismaAthleteRepository implements AthleteRepository {
