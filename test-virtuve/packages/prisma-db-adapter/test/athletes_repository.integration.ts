@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../build/generated/client';
 import { faker } from '@faker-js/faker';
 import { PrismaAthleteRepository } from '../src/athlete_repository';
 import { Athlete } from '@virtuve/biz-core';
