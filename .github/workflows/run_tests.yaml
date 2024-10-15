@@ -18,6 +18,9 @@ jobs:
   prisma-adapter-tests:
     runs-on: ubuntu:latest
     container: node:20-bookworm-slim
+    defaults:
+      run:
+        working-directory: packages/prisma-db-adapter
     services:
       postgres:
         image: postgres:14
@@ -35,19 +38,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
+      - name: Install Node
+        uses: actions/setup-node@v4
         with:
-          version: 8
-          run_install: false
+          node-version: 20
+          cache-dependency-path: "**/**/pnpm-lock.yaml"
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
   
       - name: Apply migrations
-        working-directory: packages/prisma-db-adapter
         run: pnpm run db:migrate-prod
 
       - name: Run integration tests
-        working-directory: packages/prisma-db-adapter
         run: pnpm run test:i
