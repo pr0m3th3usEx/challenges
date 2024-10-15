@@ -6,9 +6,13 @@ on:
   pull_request: 
     branches: 
       - "**"
+    paths: 
+      - test-virtuve 
   push:
     branches:
       - main
+    paths: 
+      - test-virtuve 
 
 concurrency: 
   cancel-in-progress: true
