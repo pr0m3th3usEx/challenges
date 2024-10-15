@@ -26,7 +26,7 @@ app.use(
 
 app.use(customLogger);
 
-// Deployment (Docker, Terraform)
+// Deployment (Github Actions, Terraform)
 // Caching (Redis)
 // Monitoring (Grafana, Prometheus)
 // Documentation (Swagger, Readme)

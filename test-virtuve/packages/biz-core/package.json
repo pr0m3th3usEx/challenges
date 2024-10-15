@@ -56,8 +56,8 @@
   "private": true,
   "scripts": {
     "build": "tsc",
-    "lint": "eslint \"src/**/*.ts\"",
-    "lint:fix": "eslint \"src/**/*.ts\" --fix",
+    "lint": "eslint --report-unused-disable-directives --max-warnings 0 \"src/**/*.ts\"",
+    "lint:fix": "eslint --report-unused-disable-directives --max-warnings 0 \"src/**/*.ts\" --fix",
     "test": "vitest run",
     "format": "prettier ./src --write",
     "fclean": "rm -rf build"

@@ -7,8 +7,8 @@
     "start": "node build/src/index.js",
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
-    "lint": "eslint \"src/**/*.ts\"",
-    "lint:fix": "eslint --fix \"src/**/*.ts\"",
+    "lint": "eslint --report-unused-disable-directives --max-warnings 0 \"src/**/*.ts\"",
+    "lint:fix": "eslint --report-unused-disable-directives --max-warnings 0 \"src/**/*.ts\" --fix",
     "format": "prettier ./src --write"
   },
   "dependencies": {
