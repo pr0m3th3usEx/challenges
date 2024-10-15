@@ -7,12 +7,12 @@ on:
     branches: 
       - "**"
     paths: 
-      - test-virtuve 
+      - test-virtuve/**
   push:
     branches:
       - main
     paths: 
-      - test-virtuve 
+      - test-virtuve/**
   
 concurrency: 
   cancel-in-progress: true
