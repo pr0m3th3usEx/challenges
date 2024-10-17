@@ -90,3 +90,10 @@ docker build -t virtuve:test --progress=plain .
 ```
 
 You can find the details about image building into the [Dockerfile](https://github.com/pr0m3th3usEx/challenges/blob/8706533545106c617e411abc7a7f4f2a069eced2/test-virtuve/Dockerfile).
+
+### Way of improvements ?
+
+- OpenAPI documentation
+- Redis caching for metrics endpoints
+- Monitoring: Grafana & Prometheus
+- Deployment: Terraform, Kubernetes ?
