@@ -36,6 +36,7 @@
     "lint:fix": "eslint --report-unused-disable-directives --max-warnings 0 \"src/**/*.ts\" --fix",
     "format": "prettier ./src --write",
     "build": "prisma generate && tsc",
+    "prepare": "prisma generate && tsc",
     "fclean": "rm -rf build"
   },
   "dependencies": {
