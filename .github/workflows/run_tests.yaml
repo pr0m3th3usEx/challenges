@@ -62,8 +62,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
   
-      - name: Apply migrations
-        run: pnpm run db:migrate-prod
+      - name: Apply migrations && generate client
+        run: pnpm run db:migrate-prod && pnpm run db:generate-client
 
       - name: Run integration tests
         run: pnpm run test:i
