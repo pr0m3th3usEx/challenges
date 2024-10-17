@@ -63,9 +63,9 @@ jobs:
         run: pnpm install --frozen-lockfile
               
       - name: Apply migrations && generate client
-        working-directory: packages/prisma-db-adapter
+        working-directory: test-virtuve/packages/prisma-db-adapter
         run: pnpm run db:migrate-prod && pnpm run db:generate-client
 
       - name: Run integration tests
-        working-directory: packages/prisma-db-adapter
+        working-directory: test-virtuve/packages/prisma-db-adapter
         run: pnpm run test:i
