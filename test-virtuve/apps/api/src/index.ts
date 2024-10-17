@@ -26,11 +26,11 @@ app.use(
 
 app.use(customLogger);
 
-// Deployment (Github Actions, Terraform)
+// TODO ideas:
 // Caching (Redis)
 // Monitoring (Grafana, Prometheus)
-// Documentation (Swagger, Readme)
-// Testing (Validation tests)
+// Testing (CQ validation tests)
+// Deployment (Terraform, GCP)
 
 app.route('/', athleteRoutes);
 app.route('/', metricsRoutes);

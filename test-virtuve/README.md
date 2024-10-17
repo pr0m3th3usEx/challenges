@@ -1,81 +1,92 @@
-# Turborepo starter
+# Technical test for Virtuve / Spain
 
-This is an official starter Turborepo.
+## Subject
 
-## Using this example
+The aim of this technical test is to evaluate the candidate’s ability to develop and
+implement backend solutions in a Node.js ecosystem with a focus on scalability,
+clean architecture, and efficient design. The test will allow us to assess the
+candidate’s proficiency in TypeScript, their understanding of key technologies and
+principles (Prisma, PostgreSQL, Docker, etc.), and their ability to design solutions
+that follow good software engineering practices such as SOLID principles and
+Domain-Driven Design (DDD).
 
-Run the following command:
+You will be tasked with building a simplified REST API for managing athlete data
+and their performance metrics. This service will allow athletes to be registered,
+their performance data to be updated, and basic queries on their data to be
+executed.
 
-```sh
-npx create-turbo@latest
+### Stack
+
+- TypeScript: The project must be developed using Node.js with TypeScript.
+- Docker: The application should be containerized using Docker. Provide a
+- Dockerfile and docker-compose configuration that sets up the app and a
+- PostgreSQL instance.
+- PostgreSQL: Use PostgreSQL as the database.
+- Prisma: Use Prisma as the ORM for database interaction.
+- Hono: Use Hono as http framework for building the API.
+
+### Additional requirement
+
+- Error Handling: Ensure proper error handling for invalid requests (e.g., non-
+existent athlete IDs).
+- Testing: Implement unit tests for critical parts of the functionality (e.g.,
+creating athletes, retrieving metrics).
+- Testing: Add integration / unitary tests (e.g., using Jest or Vitest) for critical
+parts of the functionality.
+- SOLID Principles: Demonstrate adherence to SOLID principles in your
+implementation.
+- OOD Principles: Demonstrate adherence to OOD principles in your
+implementation.
+
+More details [here](./Backend_Technical_Test.pdf)
+
+## My solution
+
+I decided to create a monorepo using PNPM workspace & [Turborepo](https://turbo.build/) to manage the different packages & applications for the project. Then, it would be easier to create modular components to follow Hexagonal architecture & DDD principles.
+
+Current file structure is as followed:
+```bash
+.
+├── apps
+│   └── api # Hono-based REST API
+└── packages
+    ├── biz-core # Business logic
+    ├── eslint-config-custom # Custom ESLint configuration module
+    ├── prettier-config-custom # Custom Prettier configuration module
+    └── prisma-db-adapter # Prisma Adapter
 ```
 
-## What's inside?
-
-This Turborepo includes the following packages/apps:
-
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
+### Install depedencies
+ 
+Install dependencies running command:
+```shell
+pnpm install --frozen-lockfile
 ```
 
-### Develop
+### Test adapters
 
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm dev
-```
-
-### Remote Caching
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
+```shell
+# Change current directory
+cd packages/prisma-db-adapter
+# Run testing database
+pnpm run db:up
+# Apply migrations and generate Prisma client
+pnpm run db:migrate && pnpm run db:generate-client
+# Execute tests
+pnpm run test:i
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+### Run API (for development)
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
+```shell
+cd apps/api
+pnpm run dev
 ```
-npx turbo link
+
+### Build production image (using Docker)
+
+```shell
+docker build -t virtuve:test --progress=plain .
 ```
 
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+You can find the details about image building into the [Dockerfile](https://github.com/pr0m3th3usEx/challenges/blob/8706533545106c617e411abc7a7f4f2a069eced2/test-virtuve/Dockerfile).
