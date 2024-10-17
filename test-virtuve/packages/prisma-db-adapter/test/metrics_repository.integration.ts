@@ -1,9 +1,10 @@
 import { test, expect } from 'vitest';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../build/generated/client';
 import { PrismaMetricRepository } from '../src/metric_repository';
 import { PrismaAthleteRepository } from '../src/athlete_repository';
 import { createAthlete, createMetricData, parseISOString } from './factory';
-import { Metric, MetricType } from '@virtuve/biz-core';
+import { Metric } from '@virtuve/biz-core/entities';
+import { MetricType } from '@virtuve/biz-core/value_objects';
 import { faker } from '@faker-js/faker';
 
 const prisma = new PrismaClient();

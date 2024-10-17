@@ -32,10 +32,11 @@
     "pretest:i": "npm run db:up && npx prisma migrate deploy",
     "test:i": "vitest run --config ./vitest.config.ts",
     "posttest:i": "npm run db:down",
-    "lint": "eslint \"src/**/*.ts*\"",
-    "lint:fix": "eslint --fix \"src/**/*.ts*\"",
+    "lint": "eslint --report-unused-disable-directives --max-warnings 0 \"src/**/*.ts\"",
+    "lint:fix": "eslint --report-unused-disable-directives --max-warnings 0 \"src/**/*.ts\" --fix",
     "format": "prettier ./src --write",
     "build": "prisma generate && tsc",
+    "prepare": "prisma generate && tsc",
     "fclean": "rm -rf build"
   },
   "dependencies": {

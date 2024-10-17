@@ -11,6 +11,10 @@
       "default": "./build/src/value_objects/index.js",
       "types": "./build/src/value_objects/index.d.ts"
     },
+    "./entities": {
+      "default": "./build/src/entities/index.js",
+      "types": "./build/src/entities/index.d.ts"
+    },
     "./queries/get_athletes_query": {
       "default": "./build/src/queries/athletes/get_athletes_query.js",
       "types": "./build/src/queries/athletes/get_athletes_query.d.ts"
@@ -56,8 +60,9 @@
   "private": true,
   "scripts": {
     "build": "tsc",
-    "lint": "eslint \"src/**/*.ts\"",
-    "lint:fix": "eslint \"src/**/*.ts\" --fix",
+    "prepare": "tsc",
+    "lint": "eslint --report-unused-disable-directives --max-warnings 0 \"src/**/*.ts\"",
+    "lint:fix": "eslint --report-unused-disable-directives --max-warnings 0 \"src/**/*.ts\" --fix",
     "test": "vitest run",
     "format": "prettier ./src --write",
     "fclean": "rm -rf build"
