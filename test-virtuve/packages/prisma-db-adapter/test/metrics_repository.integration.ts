@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../build/generated/client';
 import { PrismaMetricRepository } from '../src/metric_repository';
 import { PrismaAthleteRepository } from '../src/athlete_repository';
 import { createAthlete, createMetricData, parseISOString } from './factory';
