@@ -1,0 +1,16 @@
+services:
+  db:
+    container_name: okomera_db
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: random
+      MONGO_INITDB_ROOT_PASSWORD: testtest
+      MONGO_INITDB_DATABASE: test
+    ports:
+      - 27017:27017
+    volumes:
+      - db_data:/data/db/
+
+volumes:
+  db_data:

@@ -1,0 +1,49 @@
+services:
+  db:
+    container_name: okomera_db
+    image: mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: random
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: test
+    ports:
+      - 27017:27017
+    volumes:
+      - data:/data/db/
+    networks:
+      - backend
+
+  api:
+    container_name: okomera_api
+    image: okomera_api:test
+    depends_on:
+      - db
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: mongodb://random:password@db:27017/
+      PORT: 3000
+      GCP_PROJECT_ID: test-okomera
+      GCP_BUCKET_NAME: okomera-organoids
+      # Enable api to access google cloud service credentials
+      GOOGLE_APPLICATION_CREDENTIALS: /gcp/config/application_default_credentials.json
+    ports:
+      - 3000:3000
+    networks:
+      - backend
+    volumes:
+      - "${HOME}/.config/gcloud:/gcp/config:ro"
+  
+  app:
+    container_name: okomera_app
+    image: okomera_app:test
+    restart: unless-stopped
+    ports:
+      - 4173:3000
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  data:

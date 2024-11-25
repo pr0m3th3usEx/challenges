@@ -1,0 +1,9 @@
+node_modules
+.github
+*.html
+
+build
+dist
+
+packages/eslint-config-custom/*
+packages/prettier-config-custom/*
