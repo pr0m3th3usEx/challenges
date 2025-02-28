@@ -1,0 +1,59 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Requirement {
+  id          String @id @default(uuid())
+  name        String
+  description String
+
+  requiredDocuments DocumentTypeForRequirements[]
+}
+
+model DocumentType {
+  docType     String   @unique
+  name        String
+  description String
+  addedAt     DateTime @default(now())
+
+  documents           Document[]
+  relatedRequirements DocumentTypeForRequirements[]
+}
+
+model Document {
+  id             String                   @id @default(uuid())
+  version        DateTime
+  status         DocumentValidationStatus
+  expirationDate DateTime
+
+  docType     DocumentType @relation(fields: [docTypeName], references: [docType])
+  docTypeName String
+}
+
+model DocumentTypeForRequirements {
+  requirement   Requirement @relation(fields: [requirementId], references: [id])
+  requirementId String
+
+  documentType DocumentType @relation(fields: [docTypeName], references: [docType])
+  docTypeName  String
+
+  @@id([requirementId, docTypeName])
+}
+
+enum DocumentValidationStatus {
+  IN_PROGRESS
+  VALID
+  REFUSED
+  EXPIRED
+}

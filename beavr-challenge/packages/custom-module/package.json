@@ -1,0 +1,27 @@
+{
+  "name": "custom-module",
+  "version": "1.0.0",
+  "description": "Custom module example",
+  "private": true,
+  "exports": {
+    "import": "./dist/index.js",
+    "types": "./dist/index.d.ts"
+  },
+  "scripts": {
+    "build": "rimraf dist && tsup ./src/index.ts --format esm,cjs --dts",
+    "lint": "eslint --report-unused-disable-directives --max-warnings 0 \"src/**/*.ts\"",
+    "lint:fix": "eslint --report-unused-disable-directives --max-warnings 0 \"src/**/*.ts\" --fix",
+    "format": "prettier ./src --write",
+    "prerelease": "yarn build && yarn test",
+    "test": "vitest --run"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint-config-custom": "workspace:*",
+    "prettier-config-custom": "workspace:*",
+    "rimraf": "^6.0.1",
+    "tsup": "^8.3.5"
+  }
+}
